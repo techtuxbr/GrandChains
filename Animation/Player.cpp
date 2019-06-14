@@ -14,8 +14,8 @@ Player::Player(int startX, int startY) {
 	MoveTo(startX, startY);
 	type = PLAYER;
 
-	jumpDistance = 1000;
-	jumpProgress = 1000;
+	jumpDistance = 450;
+	jumpProgress = 450;
 
 	right = new TileSet("Resources/playerRight.png", 150, 150, 10, 10);
 	rightAnim = new Animation(right, 1.0 / 10.0, true);
@@ -121,7 +121,7 @@ void Player::Draw() {
 }
 
 void Player::Jump() {
-	if (window->KeyDown(VK_SPACE) && jumpProgress >= jumpDistance) {
+	if (window->KeyDown(VK_SPACE) && jumpProgress >= jumpDistance && grounded) {
 		jumpProgress = 0;
 	}
 
@@ -135,12 +135,16 @@ void Player::Gravity(){
 	if (!grounded) {
 		y += 10;
 		MoveTo(x, y, Layer::FRONT);
+	} else {
+		MoveTo(x, y);
+		grounded = false;
 	}
-	
 }
 
 void Player::OnCollision(Object* obj) {
 	if (obj->Type() == TILE) {
 		grounded = true;
+	} else {
+		grounded = false;
 	}
 }

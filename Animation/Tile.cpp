@@ -7,7 +7,7 @@ Tile::Tile(int startX, int startY) {
 
 	tile = new Sprite("Resources/tile.png");
 
-	bbox = new Rect(-126, -36, 126, 36);
+	bbox = new Rect(-126 + x, -36 + y, 126 + x, 36 + y);
 	MoveTo(startX, startY, Layer::FRONT);
 }
 
