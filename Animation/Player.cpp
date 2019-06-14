@@ -6,7 +6,6 @@
 
 Player::Player(int startX, int startY) {
 	grounded = false;
-	lefted = false;
 
 	collisionPrecision = 0;
 
@@ -209,6 +208,12 @@ void Player::OnCollision(Object* obj) {
 
 		if (rect->Top() == y + stoppedR->Height() / 2) {
 			collisionPrecision = rect->Top();
-		} else if ()
+		} else if (rect->Bottom() == y - stoppedR->Height()) {
+			
+		} else if (rect->Right() == x - stoppedR->Height()) {
+
+		} else if (rect->Left() == x + stoppedR->Height()) {
+
+		} 
 	}
 }
