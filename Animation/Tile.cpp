@@ -16,7 +16,7 @@ Tile::~Tile() {
 }
 
 void Tile::Update() {
-
+	bbox->MoveTo(x, y);
 }
 
 void Tile::Draw() {

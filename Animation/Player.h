@@ -31,35 +31,39 @@ private:
 	uint currentState = NULL;		// Estado atual do player
 	enum PLAYERSTATE {				// Estados possíveis
 		FALLR, FALLL,
-		STOPPEDR, STOPPEDL,		
+		STOPPEDR, STOPPEDL,
 		JUMPR, JUMPL,
 		RIGHT, LEFT
 	};
 
-
-	bool jumpCtrl = NULL;
 	int collisionPrecision = NULL;
 
 	bool grounded = NULL;
 
-
 	float velX = NULL;		// Velocidade do player no eixo X
 	float velY = NULL;		// Velocidade do player no eixo Y
 
+	float moveSpeed = 400;
+	float jumpSpeed = 720;
+	float jumpHeight = 16000; // Quanto menor esse número, maior a altura.
+
 	int jumpDistance = NULL;
 	int jumpProgress = NULL;
+
+	float gravityScale = 270;
+
 public:
-	Player(int startX, int startY);		// Construtor
-	~Player();							// Destrutor
+	Player(int startX, int startY, float mSpeed, float jSpeed, float jHeigth);		// Construtor
+	~Player();																		// Destrutor
 
 
 	void OnCollision(Object* obj);	// Detecta as colisões do player
 	void Update();					// Atualiza lógica do jogo
 	void Draw();					// Desenha os quadros do jogo
 
-	void Jump();	
-	void Gravity();
-	void StateMachine();
+	void Jump();					// Realiza o pulo do personagem
+	void Gravity();					// Aplica gravidade ao objeto
+	void StateMachine();			// Interpretador de estados
 };
 // --------------------------------------------------------------------------------------
 

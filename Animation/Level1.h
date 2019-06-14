@@ -15,9 +15,9 @@ enum ObjectsTypes {
 // Classe da cena Level1 ----------------------------------------------
 class Level1 : public Game {
 private:
-	Sprite*	background = nullptr;	// Background
+	Sprite* background = nullptr;	// Background
 
-	Scene*	scene = nullptr;	// Gerenciador de cena
+	Scene* scene = nullptr;	// Gerenciador de cena
 
 	bool viewBBox = false;	// habilita visualização da bounding box
 	bool ctrlKeyB = false;	// habilita visualização da bounding box

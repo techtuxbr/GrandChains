@@ -4,7 +4,7 @@
 #include "Level1.h"
 #include "Tile.h"
 
-Player::Player(int startX, int startY) {
+Player::Player(int startX, int startY, float mSpeed, float jSpeed, float jHeigth) {
 	grounded = false;
 
 	collisionPrecision = 0;
@@ -13,13 +13,16 @@ Player::Player(int startX, int startY) {
 
 	velX = 0;
 	velY = 0;
+	moveSpeed = mSpeed;
 
 	bbox = new Rect(-75 + x, -75 + y, 75 + x, 75 + y);
 	MoveTo(startX, startY);
 	type = PLAYER;
 
-	jumpDistance = 450;
-	jumpProgress = 450;
+	jumpDistance = 5000;
+	jumpProgress = 5000;
+	jumpSpeed = jSpeed;
+	jumpHeight = jHeigth;
 
 	right = new TileSet("Resources/playerRight.png", 150, 150, 10, 10);
 	rightAnim = new Animation(right, 1.0 / 10.0, true);
@@ -38,7 +41,7 @@ Player::Player(int startX, int startY) {
 
 	jumpL = new TileSet("Resources/jumpL.png", 150, 197, 5, 5);
 	jumpLAnim = new Animation(jumpL, 1.0 / 10.0, true);
-	
+
 	fallR = new TileSet("Resources/fallR.png", 150, 197, 2, 2);
 	fallRAnim = new Animation(fallR, 1.0 / 10.0, true);
 
@@ -58,35 +61,37 @@ Player::~Player() {
 }
 
 void Player::Update() {
+	// Processamento de input ------------
 	if (window->KeyDown(VK_RIGHT)) {
-		velX = 400;
-	}
-	else if (window->KeyDown(VK_LEFT)) {
-		velX = -400;
-	}
-	else {
+		velX = moveSpeed;
+	} else if (window->KeyDown(VK_LEFT)) {
+		velX = -moveSpeed;
+	} else {
 		velX = 0;
 	}
+	// -----------------------------------
 
-	//// Pressionar Space --------------------
-	//if (window->KeyUp(VK_SPACE)) {
-	//	jumpCtrl = true;
-	//}
-	//if (window->KeyDown(VK_SPACE) && jumpCtrl && grounded) {
-	//	velY = -1000;
-	//	collisionPrecision = 0;
-	//	jumpCtrl = false;
-	//}
-	//// -------------------------------------
+	// Movimento horizontal --------------------
+	x += velX * gameTime; // Movendo player no X
+	// -----------------------------------------
 
-	Translate(velX * gameTime, velY * gameTime);
+	// Movendo player para o topo do chão, caso ele penetre-o
 	if (collisionPrecision != 0) {
 		MoveTo(x, collisionPrecision - 75);
 	}
-	StateMachine();
-	Gravity();
+	// ------------------------------------------------------
 
-	bbox->MoveTo(x, y);
+	// Movimento em Y 
+	Jump();
+	Gravity();
+	// --------------
+
+	// Animações -----------------------------------------------
+	StateMachine(); // Executando maquina de estados de animação
+	// ---------------------------------------------------------
+
+	bbox->MoveTo(x, y); // Movendo bounding box a cada frame para a posição do player
+
 }
 
 void Player::Draw() {
@@ -95,7 +100,7 @@ void Player::Draw() {
 			rightAnim->Draw(x, y, 0.2f);
 			rightAnim->NextFrame();
 			break;
-		
+
 		case LEFT:
 			leftAnim->Draw(x, y, 0.2f);
 			leftAnim->NextFrame();
@@ -110,7 +115,7 @@ void Player::Draw() {
 			stoppedLAnim->Draw(x, y, 0.2f);
 			stoppedLAnim->NextFrame();
 			break;
-	
+
 		case JUMPR:
 			jumpRAnim->Draw(x, y, 0.2f);
 			jumpRAnim->NextFrame();
@@ -123,32 +128,21 @@ void Player::Draw() {
 
 		case FALLR:
 			fallRAnim->Draw(x, y, 0.2f);
-			if (fallRAnim->frame == 1) {
-				if (grounded) {
-					fallRAnim->NextFrame();
-				} else {
-					fallRAnim->frame = 0;
-					fallRAnim->NextFrame();
-				}
+			if (grounded) {
+				fallRAnim->frame = 1;
 			} else {
-				fallRAnim->NextFrame();
-			}
-			break;
-		
-		case FALLL:
-			fallLAnim->Draw(x, y, 0.2f);
-			if (fallLAnim->frame == 1) {
-				if (grounded) {
-					fallLAnim->NextFrame();
-				} else {
-					fallLAnim->frame = 0;
-					fallLAnim->NextFrame();
-				}
-			} else {
-				fallLAnim->NextFrame();
+				fallRAnim->Restart();
 			}
 			break;
 
+		case FALLL:
+			fallLAnim->Draw(x, y, 0.2f);
+			if (grounded) {
+				fallLAnim->frame = 1;
+			} else {
+				fallLAnim->Restart();
+			}
+			break;
 	}
 }
 
@@ -157,10 +151,10 @@ void Player::StateMachine() {
 		currentState = JUMPR;
 	} else if (velX < 0 && velY < 0) {
 		currentState = JUMPL;
-	} else if (!grounded && velY > 0) {
-		if (currentState == RIGHT || currentState == STOPPEDR) {
+	} else if (!grounded && velY > 0 ) {
+		if (velX > 0 || currentState == STOPPEDR) {
 			currentState = FALLR;
-		} else if (currentState == LEFT || currentState == STOPPEDL) {
+		} else if (velX < 0 || currentState == STOPPEDL) {
 			currentState = FALLL;
 		}
 	} else if (velX > 0) {
@@ -180,19 +174,27 @@ void Player::StateMachine() {
 void Player::Jump() {
 	if (window->KeyDown(VK_SPACE) && jumpProgress >= jumpDistance && grounded) {
 		jumpProgress = 0;
+		collisionPrecision = 0;
 	}
 
+	// Caso esteja pulando -------------------
 	if (jumpProgress < jumpDistance) {
-		y += 20;
-		jumpProgress += 30;
+		y -= jumpSpeed * gameTime;
+		jumpProgress += jumpHeight * gameTime;
+		velY = jumpSpeed * gameTime;
+		grounded = false;
+	} else { // Não está pulando
+		velY = 0;
 	}
 }
 
 void Player::Gravity() {
 	if (!grounded) {
-		velY += 980 * gameTime;
+		y += gravityScale * gameTime;
+		velY += gravityScale * gameTime;
 	} else {
 		velY = 0;
+		y = y;
 		collisionPrecision = 0;
 		grounded = false;
 	}
@@ -201,19 +203,10 @@ void Player::Gravity() {
 void Player::OnCollision(Object* obj) {
 	if (obj->Type() == TILE) {
 		grounded = true;
-
 		Tile* tile = (Tile*)obj;
 
-		Rect * rect = (Rect*)tile->bbox;
+		Rect* rect = (Rect*)tile->bbox;
 
-		if (rect->Top() == y + stoppedR->Height() / 2) {
-			collisionPrecision = rect->Top();
-		} else if (rect->Bottom() == y - stoppedR->Height()) {
-			
-		} else if (rect->Right() == x - stoppedR->Height()) {
-
-		} else if (rect->Left() == x + stoppedR->Height()) {
-
-		} 
+		collisionPrecision = rect->Top();
 	}
 }

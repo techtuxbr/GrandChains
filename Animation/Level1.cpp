@@ -9,11 +9,17 @@
 void Level1::Init() {
 	scene = new Scene();
 
-	Player* player = new Player(window->CenterX(), window->CenterY() - 300);
+	Player* player = new Player(window->CenterX(), window->CenterY() - 300, 400, 720, 16000);
 	scene->Add(player, MOVING);
 
 	Tile* tile = new Tile(window->CenterX(), window->CenterY());
 	scene->Add(tile, STATIC);
+	
+	Tile* tile2 = new Tile(window->CenterX() - 500, window->CenterY());
+	scene->Add(tile2, STATIC);
+	
+	Tile* tile3 = new Tile(window->CenterX() + 500, window->CenterY());
+	scene->Add(tile3, STATIC);
 
 	background = new Sprite("Resources/backgroundLevel1.jpg");
 }
