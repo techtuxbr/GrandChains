@@ -28,31 +28,39 @@ private:
 	TileSet*	fallL = nullptr;			// Sprite do estado caindo para a esquerda
 	Animation*	fallLAnim = nullptr;		// Animação do estado caindo para a esquerda
 
-	bool gravity = true;
+	uint currentState = NULL;		// Estado atual do player
+	enum PLAYERSTATE {				// Estados possíveis
+		FALLR, FALLL,
+		STOPPEDR, STOPPEDL,		
+		JUMPR, JUMPL,
+		RIGHT, LEFT
+	};
 
-	uint currentState = NULL;					// Estado atual do player
-	enum PLAYERSTATE {	STOPPEDR, STOPPEDL,		// Estados possíveis
-						JUMPR, JUMPL, 
-						RIGHT, LEFT };		
 
-	float velX = NULL;	// Velocidade do player no eixo X
-	float velY = NULL;	// Velocidade do player no eixo Y
+	bool jumpCtrl = NULL;
+	int collisionPrecision = NULL;
+
+	bool grounded = NULL;
+	bool lefted = NULL;
+
+
+	float velX = NULL;		// Velocidade do player no eixo X
+	float velY = NULL;		// Velocidade do player no eixo Y
 
 	int jumpDistance = NULL;
 	int jumpProgress = NULL;
-
-	bool grounded = NULL;
 public:
-	Player(int startX, int startY);	// Construtor
-	~Player();	// Destrutor
+	Player(int startX, int startY);		// Construtor
+	~Player();							// Destrutor
 
-	void Update();	// Atualiza lógica do jogo
-	void Draw();	// Desenha os quadros do jogo
 
-	void Jump();
+	void OnCollision(Object* obj);	// Detecta as colisões do player
+	void Update();					// Atualiza lógica do jogo
+	void Draw();					// Desenha os quadros do jogo
+
+	void Jump();	
 	void Gravity();
-
-	void OnCollision(Object* obj);
+	void StateMachine();
 };
 // --------------------------------------------------------------------------------------
 

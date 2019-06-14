@@ -16,7 +16,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	// --------------------------------
 
 	// Configura dispositivo gráfico
-	engine->graphics->VSync(true);
+	//engine->graphics->VSync(true);
 	// -----------------------------
 
 	// Inicia o jogo -----------------------------
