@@ -41,7 +41,6 @@ private:
 	int collisionPrecision = NULL;
 
 	bool grounded = NULL;
-	bool lefted = NULL;
 
 
 	float velX = NULL;		// Velocidade do player no eixo X

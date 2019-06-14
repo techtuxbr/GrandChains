@@ -59,7 +59,7 @@ Player::~Player() {
 }
 
 void Player::Update() {
-	if (!lefted && window->KeyDown(VK_RIGHT)) {
+	if (window->KeyDown(VK_RIGHT)) {
 		velX = 400;
 	}
 	else if (window->KeyDown(VK_LEFT)) {
@@ -204,13 +204,11 @@ void Player::OnCollision(Object* obj) {
 		grounded = true;
 
 		Tile* tile = (Tile*)obj;
-		switch (tile->bbox->type) {
-			case RECTANGLE_T:
-				Rect * rect = (Rect*)tile->bbox;
 
-				if (rect->Top() == y + stoppedR->Height() / 2) {
-					collisionPrecision = rect->Top();
-				} 
-		}
+		Rect * rect = (Rect*)tile->bbox;
+
+		if (rect->Top() == y + stoppedR->Height() / 2) {
+			collisionPrecision = rect->Top();
+		} else if ()
 	}
 }
