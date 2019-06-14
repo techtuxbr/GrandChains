@@ -10,7 +10,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	Engine::window->Mode(WINDOWED);
 	Engine::window->Size(1024, 768);
 	Engine::window->Color(25, 25, 25);
-	Engine::window->Title("PacMan");
+	Engine::window->Title("GrandChains");
 	Engine::window->Icon(IDI_ICON);
 	Engine::window->Cursor(IDC_CURSOR);
 	// --------------------------------

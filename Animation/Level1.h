@@ -7,6 +7,11 @@
 #include "Scene.h"
 // ----------------
 
+enum ObjectsTypes {
+	PLAYER,
+	TILE
+};
+
 // Classe da cena Level1 ----------------------------------------------
 class Level1 : public Game {
 private:
@@ -14,6 +19,8 @@ private:
 
 	Scene*	scene = nullptr;	// Gerenciador de cena
 
+	bool viewBBox = false;	// habilita visualização da bounding box
+	bool ctrlKeyB = false;	// habilita visualização da bounding box
 public:
 	void Init();		// inicializa jogo
 	void Update();		// atualiza lógica do jogo

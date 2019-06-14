@@ -1001,6 +1001,10 @@ bool Renderer::Initialize(Window * window, Graphics * graphics)
 	pixelPlotSprite.width = window->Width();
 	pixelPlotSprite.height = window->Height();
 	pixelPlotSprite.texture = pixelPlotView;
+	pixelPlotSprite.texCoord.x = 0;
+	pixelPlotSprite.texCoord.y = 0;
+	pixelPlotSprite.texSize.x = 1;
+	pixelPlotSprite.texSize.y = 1;
 
 	// inicialização bem sucedida
 	return true;

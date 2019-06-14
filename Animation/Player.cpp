@@ -1,13 +1,21 @@
-#include "Engine.h"
 #include "Player.h"
 #include "Animation.h"
 #include "TileSet.h"
+#include "Level1.h"
+#include "Tile.h"
 
-Player::Player() {
-	x = window->CenterX();
-	y = window->CenterY();
+Player::Player(int startX, int startY) {
+	grounded = false;
+
 	velX = 200;
 	velY = 0;
+
+	bbox = new Rect(-75 + x, -75 + y, 75 + x, 75 + y);
+	MoveTo(startX, startY);
+	type = PLAYER;
+
+	jumpDistance = 1000;
+	jumpProgress = 1000;
 
 	right = new TileSet("Resources/playerRight.png", 150, 150, 10, 10);
 	rightAnim = new Animation(right, 1.0 / 10.0, true);
@@ -35,41 +43,47 @@ Player::Player() {
 }
 
 Player::~Player() {
+	delete right;
 	delete left;
-	delete leftAnim;
+	delete stoppedR;
+	delete stoppedL;
+	delete jumpR;
+	delete jumpL;
+	delete fallR;
+	delete fallL;
 }
 
 void Player::Update() {
+
 	// Pressionar RightArrow -----------------------
 	if (window->KeyDown(VK_RIGHT)) {
 		Translate(velX * gameTime, velY * gameTime);
 		currentState = RIGHT;
+
 	}
 	// ---------------------------------------------
 	// Pressionar LeftArrow -------------------------
 	else if (window->KeyDown(VK_LEFT)) {
 		Translate(-velX * gameTime, velY * gameTime);
 		currentState = LEFT;
+
 	} 
 	// ----------------------------------------------
-	// Pressionar Space -----------------
+	// Pressionar Space --------------------
 	else if (window->KeyDown(VK_SPACE)) {
-		if (currentState == LEFT) {
-			currentState == JUMPL;
-		} else if (currentState == RIGHT) {
-			currentState == JUMPR;
-		} 
+		Jump();
 	} 
-	// ----------------------------------
-	// Nada pressionado ------------
+	// -------------------------------------
+	// Nada pressionado -------------------
 	else {
 		if (currentState == LEFT) {
 			currentState = STOPPEDL;
-		} else {
+		} else if (currentState == RIGHT) {
 			currentState = STOPPEDR;
 		}
 	}
-	// -----------------------------
+	// ------------------------------------
+	Gravity();
 }
 
 void Player::Draw() {
@@ -106,10 +120,27 @@ void Player::Draw() {
 	}
 }
 
-void Jump() {
+void Player::Jump() {
+	if (window->KeyDown(VK_SPACE) && jumpProgress >= jumpDistance) {
+		jumpProgress = 0;
+	}
 
+	if (jumpProgress < jumpDistance) {
+		y -= 15;
+		jumpProgress += 20;
+	}
 }
 
-void Gravity(){
-	//xumpeter
+void Player::Gravity(){
+	if (!grounded) {
+		y += 10;
+		MoveTo(x, y, Layer::FRONT);
+	}
+	
+}
+
+void Player::OnCollision(Object* obj) {
+	if (obj->Type() == TILE) {
+		grounded = true;
+	}
 }

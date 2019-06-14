@@ -28,7 +28,7 @@ private:
 	TileSet*	fallL = nullptr;			// Sprite do estado caindo para a esquerda
 	Animation*	fallLAnim = nullptr;		// Animação do estado caindo para a esquerda
 
-	bool jumpCtrl = NULL;
+	bool gravity = true;
 
 	uint currentState = NULL;					// Estado atual do player
 	enum PLAYERSTATE {	STOPPEDR, STOPPEDL,		// Estados possíveis
@@ -38,13 +38,21 @@ private:
 	float velX = NULL;	// Velocidade do player no eixo X
 	float velY = NULL;	// Velocidade do player no eixo Y
 
+	int jumpDistance = NULL;
+	int jumpProgress = NULL;
+
+	bool grounded = NULL;
 public:
-	Player();	// Construtor
+	Player(int startX, int startY);	// Construtor
 	~Player();	// Destrutor
 
 	void Update();	// Atualiza lógica do jogo
 	void Draw();	// Desenha os quadros do jogo
 
+	void Jump();
+	void Gravity();
+
+	void OnCollision(Object* obj);
 };
 // --------------------------------------------------------------------------------------
 
