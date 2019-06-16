@@ -15,8 +15,12 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	Engine::window->Cursor(IDC_CURSOR);
 	// --------------------------------
 
+	AllocConsole();
+	FILE* fp;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+
 	// Configura dispositivo gráfico
-	//engine->graphics->VSync(true);
+	engine->graphics->VSync(true);
 	// -----------------------------
 
 	// Inicia o jogo -----------------------------

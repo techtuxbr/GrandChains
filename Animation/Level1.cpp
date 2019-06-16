@@ -4,12 +4,15 @@
 #include "StartScreen.h"
 #include "Player.h"
 #include "Tile.h"
+#include "Bullet.h"
 // ---------------------
+
+Scene* Level1::scene = nullptr;
 
 void Level1::Init() {
 	scene = new Scene();
 
-	Player* player = new Player(window->CenterX(), window->CenterY() - 300, 400, 720, 16000);
+	Player* player = new Player(window->CenterX(), window->CenterY() - 300, 400, 720, 16000, LEVEL1);
 	scene->Add(player, MOVING);
 
 	Tile* tile = new Tile(window->CenterX(), window->CenterY());
@@ -25,19 +28,15 @@ void Level1::Init() {
 }
 
 void Level1::Update() {
-	Engine::renderer->BeginPixels();
+	// habilita visualização da bounding box
+	if (window->KeyUp('B'))
+		ctrlKeyB = true;
 
-	// cor compactada em 32 bits
-	ulong magenta = (255 << 24) + (255 << 16) + (0 << 8) + 255;
-
-	scene->Begin();
-	Object* obj = nullptr;
-	while (obj = scene->Next()) {
-		if (obj->bbox)
-			Engine::renderer->Draw(obj->bbox, magenta);
+	// habilita/desabilita visualização da bounding box
+	if (ctrlKeyB && window->KeyDown('B')) {
+		viewBBox = !viewBBox;
+		ctrlKeyB = false;
 	}
-
-	Engine::renderer->EndPixels();
 
 	// Sai do jogo com a tecla ESC ---------
 	if (window->KeyDown(VK_ESCAPE)) {
@@ -52,9 +51,27 @@ void Level1::Update() {
 void Level1::Draw() {
 	background->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
 	scene->Draw();
+
+	// desenha a bounding box de todos os objetos
+	if (viewBBox) {
+		Engine::renderer->BeginPixels();
+
+		// cor compactada em 32 bits
+		ulong magenta = (255 << 24) + (255 << 16) + (0 << 8) + 255;
+
+		scene->Begin();
+		Object* obj = nullptr;
+		while (obj = scene->Next()) {
+			if (obj->bbox)
+				Engine::renderer->Draw(obj->bbox, magenta);
+		}
+
+		Engine::renderer->EndPixels();
+	}
 }
 
 void Level1::Finalize() {
 	delete background;
 	delete scene;
 }
+

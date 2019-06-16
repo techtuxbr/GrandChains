@@ -3,59 +3,68 @@
 
 // Includes ----------
 #include "Object.h"
-#include "Sprite.h"
 #include "Animation.h"
 #include "TileSet.h"
+#include "GrandChains.h"
+#include "Tile.h"
+#include "Bullet.h"
+#include "Level1.h"
 // -------------------
 
-// Objeto do personagem principal -------------------------------------------------------
+// Objeto do personagem principal ---------------------------------------------------------------------------------------------------
 class Player : public Object {
 private:
-	TileSet*	stoppedR = nullptr;			// Sprite do estado parado
-	Animation*	stoppedRAnim = nullptr;		// Animação do estado parado
-	TileSet*	stoppedL = nullptr;			// Sprite do estado parado
-	Animation*	stoppedLAnim = nullptr;		// Animação do estado parado
-	TileSet*	right = nullptr;			// Sprite do estado andando para a direita
-	Animation*	rightAnim = nullptr;		// Animação do estado andando para a direita
-	TileSet*	left = nullptr;				// Sprite do estado andando para a esquerda
-	Animation*	leftAnim = nullptr;			// Animação do estado andando para a esquerda
-	TileSet*	jumpR = nullptr;			// Sprite do estado pulando para a direita
-	Animation*	jumpRAnim = nullptr;		// Animação do estado pulando para a direita
-	TileSet*	jumpL = nullptr;			// Sprite do estado pulando para a esquerda
-	Animation*	jumpLAnim = nullptr;		// Animação do estado pulando para a esquerda	
-	TileSet*	fallR = nullptr;			// Sprite do estado caindo para a direita
-	Animation*	fallRAnim = nullptr;		// Animação do estado caindo para a direita
-	TileSet*	fallL = nullptr;			// Sprite do estado caindo para a esquerda
-	Animation*	fallLAnim = nullptr;		// Animação do estado caindo para a esquerda
+	uint currentState = NULL;														// Estado atual do player
+	enum PLAYERSTATE {	RIGHT,	LEFT,	STOPPEDR,	STOPPEDL,	FALLR,	FALLL,		// Estados possíveis
+						RIGHTS,	LEFTS,	STOPPEDRS,	STOPPEDLS,	FALLRS,	FALLLS};			
 
-	uint currentState = NULL;		// Estado atual do player
-	enum PLAYERSTATE {				// Estados possíveis
-		FALLR, FALLL,
-		STOPPEDR, STOPPEDL,
-		JUMPR, JUMPL,
-		RIGHT, LEFT
-	};
+	TileSet*	right			= new TileSet("Resources/playerRight.png", 150, 150, 10, 10);				// Sprite do estado andando para a direita
+	Animation*	rightAnim		= new Animation(right, 1.0 / 10.0, true);									// Animação do estado andando para a direita
+	TileSet*	rightS			= new TileSet("Resources/playerRightShooting.png", 150, 150, 10, 10);		// Sprite do estado andando para a direita
+	Animation*	rightSAnim		= new Animation(rightS, 1.0 / 10.0, true);									// Animação do estado andando para a direita
+	TileSet*	left			= new TileSet("Resources/playerleft.png", 150, 150, 10, 10);				// Sprite do estado andando para a esquerda
+	Animation*	leftAnim		= new Animation(left, 1.0 / 10.0, true);									// Animação do estado andando para a esquerda
+	TileSet*	leftS			= new TileSet("Resources/playerleftShooting.png", 150, 150, 10, 10);		// Sprite do estado andando para a esquerda
+	Animation*	leftSAnim		= new Animation(leftS, 1.0 / 10.0, true);									// Animação do estado andando para a esquerda
+	TileSet*	stoppedR		= new TileSet("Resources/stoppedRight.png", 150, 150, 10, 10);				// Sprite do estado parado
+	Animation*	stoppedRAnim	= new Animation(stoppedR, 1.0 / 10.0, true);								// Animação do estado parado
+	TileSet*	stoppedRS		= new TileSet("Resources/stoppedRightShooting.png", 150, 150, 2, 2);		// Sprite do estado parado
+	Animation*	stoppedRSAnim	= new Animation(stoppedRS, 0.5 / 2, true);									// Animação do estado parado
+	TileSet*	stoppedL		= new TileSet("Resources/stoppedLeft.png", 150, 150, 10, 10);				// Sprite do estado parado
+	Animation*	stoppedLAnim	= new Animation(stoppedL, 1.0 / 10.0, true);								// Animação do estado parado
+	TileSet*	stoppedLS		= new TileSet("Resources/stoppedLeftShooting.png", 150, 150, 2, 2);			// Sprite do estado parado
+	Animation*	stoppedLSAnim	= new Animation(stoppedLS, 0.5 / 2, true);									// Animação do estado parado
+	TileSet*	fallR			= new TileSet("Resources/fallRight.png", 150, 150, 2, 2);					// Sprite do estado caindo para a direita
+	Animation*	fallRAnim		= new Animation(fallR, 1.0 / 10.0, true);									// Animação do estado caindo para a direita
+	TileSet*	fallRS			= new TileSet("Resources/fallRightShooting.png", 150, 150, 2, 2);			// Sprite do estado caindo para a direita
+	Animation*	fallRSAnim		= new Animation(fallRS, 1.0 / 10.0, true);									// Animação do estado caindo para a direita
+	TileSet*	fallL			= new TileSet("Resources/fallLeft.png", 150, 150, 2, 2);					// Sprite do estado caindo para a esquerda
+	Animation*	fallLAnim		= new Animation(fallL, 1.0 / 10.0, true);									// Animação do estado caindo para a esquerda
+	TileSet*	fallLS			= new TileSet("Resources/fallLeftShooting.png", 150, 150, 2, 2);			// Sprite do estado caindo para a esquerda
+	Animation*	fallLSAnim		= new Animation(fallLS, 1.0 / 10.0, true);									// Animação do estado caindo para a esquerda
 
-	int collisionPrecision = NULL;
+	uint actualLevel;
 
-	bool grounded = NULL;
+	int collisionPrecision = 0;		// Define posição após colisão
 
-	float velX = NULL;		// Velocidade do player no eixo X
-	float velY = NULL;		// Velocidade do player no eixo Y
+	bool grounded	= false;		// Define se jogador está no chão
+	int righted		= true;		// Define se jogador está virado para a direita
+	float fireTime	= -1;
 
-	float moveSpeed = 400;
-	float jumpSpeed = 720;
-	float jumpHeight = 16000; // Quanto menor esse número, maior a altura.
+	float velX			= 0;		// Velocidade do player no eixo X
+	float velY			= 0;		// Velocidade do player no eixo Y
+	float moveSpeed		= 400;		// Velocidade de movimento
+	float jumpSpeed		= 720;		// Velocidade do pulo
+	float jumpHeight	= 16000;	// Altura do pulo (quanto menor esse número, maior a altura)
+	int jumpDistance	= 5000;		// Variável de controle de distância
+	int jumpProgress	= 5000;		// Varia até o jumpDistance
 
-	int jumpDistance = NULL;
-	int jumpProgress = NULL;
+	float gravityScale = 270;	// Força da gravidade
 
-	float gravityScale = 270;
 
 public:
-	Player(int startX, int startY, float mSpeed, float jSpeed, float jHeigth);		// Construtor
-	~Player();																		// Destrutor
-
+	Player(int startX, int startY, float mSpeed, float jSpeed, float jHeigth, uint level);		// Construtor
+	~Player();																					// Destrutor
 
 	void OnCollision(Object* obj);	// Detecta as colisões do player
 	void Update();					// Atualiza lógica do jogo
@@ -65,6 +74,6 @@ public:
 	void Gravity();					// Aplica gravidade ao objeto
 	void StateMachine();			// Interpretador de estados
 };
-// --------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------
 
 #endif
