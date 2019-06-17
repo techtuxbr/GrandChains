@@ -12,7 +12,7 @@ Scene* Level1::scene = nullptr;
 void Level1::Init() {
 	scene = new Scene();
 
-	Player* player = new Player(window->CenterX(), window->CenterY() - 300, 400, 720, 16000, LEVEL1);
+	Player* player = new Player(window->CenterX(), window->CenterY() - 100, LEVEL1);
 	scene->Add(player, MOVING);
 
 	Tile* tile = new Tile(window->CenterX(), window->CenterY());
@@ -21,8 +21,11 @@ void Level1::Init() {
 	Tile* tile2 = new Tile(window->CenterX() - 500, window->CenterY());
 	scene->Add(tile2, STATIC);
 	
-	Tile* tile3 = new Tile(window->CenterX() + 500, window->CenterY());
+	Tile* tile3 = new Tile(window->CenterX() + 500, window->CenterY(), 0, 200, 0, 400);
 	scene->Add(tile3, STATIC);
+	
+	Tile* tile4 = new Tile(window->CenterX() - 200, window->CenterY() - 230);
+	scene->Add(tile4, STATIC);
 
 	background = new Sprite("Resources/backgroundLevel1.jpg");
 }

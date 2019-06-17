@@ -1,18 +1,15 @@
 #include "Player.h"
 #include "iostream"
 
-Player::Player(int startX, int startY, float moveSpeed, float jumpSpeed, float jumpHeight, uint level) {
+Player::Player(int startX, int startY, uint level) {
 	// Define tamanho da Bounding Box do player ------
-	bbox = new Rect(-65, -75, 60, 75);
+	bbox = new Rect(-spriteSize/2, -spriteSize/2, spriteSize/2, spriteSize/2);
 	// -----------------------------------------------
 
 	actualLevel = level;
 
 	// Define estados inciais ---------------------------
-	type = PLAYER;						// Tipo do objeto
-	Player::moveSpeed = moveSpeed;		
-	Player::jumpSpeed = jumpSpeed;		
-	Player::jumpHeight = jumpHeight;	
+	type = PLAYER;						// Tipo do objeto	
 	MoveTo(startX, startY);				// Posição incial
 	// --------------------------------------------------
 }
@@ -29,23 +26,23 @@ Player::~Player() {
 }
 
 void Player::Update() {
-	// Processamento de input ------------------------------------
-	if (window->KeyDown(VK_RIGHT)) {				// Right Arrow
+	// Processamento de input --------------------------------------------
+	if (window->KeyDown(VK_RIGHT) && !righted) {			// Right Arrow
 		velX = moveSpeed;
-	} else if (window->KeyDown(VK_LEFT)) {			// Left Arrow
+	} else if (window->KeyDown(VK_LEFT) && !lefted) {		// Left Arrow
 		velX = -moveSpeed;
 	} else {
 		velX = 0;
 	}
 
-	if (window->KeyDown(0x5A) && fireTime < 0) {	// Z
+	if (window->KeyDown(0x5A) && fireTime < 0) {			// Z
 		Bullet* bullet;
 
-		if (righted) {
-			bullet = new Bullet(x + 50, y);
+		if (facingRight) {
+			bullet = new Bullet(x + 50, y, actualLevel);
 			bullet->Right();
 		} else {
-			bullet = new Bullet(x - 50, y);
+			bullet = new Bullet(x - 50, y, actualLevel);
 			bullet->Left();
 		}
 		
@@ -59,13 +56,9 @@ void Player::Update() {
 			fireTime = 0.5;
 		}
 	}
-	// -----------------------------------------------------------
+	// ----------------------------------------------------------------------
 
-	// Movendo player para o topo do chão, caso ele penetre-o
-	if (collisionPrecision != 0) {
-		MoveTo(x, collisionPrecision - 75);
-	}
-	// ------------------------------------------------------
+
 
 	// Movimento -------------------------------------------
 	x += velX * gameTime;	// Movimento em X
@@ -89,6 +82,12 @@ void Player::Update() {
 	// Atualiza a bounding box para a posição do player
 	bbox->MoveTo(x, y); 
 	// ------------------------------------------------
+
+	// Reafirma os estados 
+	righted = false;
+	lefted = false;
+	grounded = false; 
+	upped = false;
 }
 
 void Player::Draw() {
@@ -175,12 +174,12 @@ void Player::Draw() {
 
 void Player::StateMachine() {
 	if (velX > 0) {
-		righted = true;
+		facingRight = true;
 	} else if (velX < 0) {
-		righted = false;
+		facingRight = false;
 	}
 
-	if (righted) {
+	if (facingRight) {
 		if (fireTime > 0) {
 			if (!grounded) {
 				currentState = FALLRS;
@@ -225,81 +224,12 @@ void Player::StateMachine() {
 			}
 		}
 	}
-	
-
-	
-	
-	
-	/*if (!grounded && fireTime > 0) {
-		if (righted) {
-			currentState = FALLRS;
-			righted = true;
-		} 
-		else if (!righted) {
-			currentState = FALLLS;
-			righted = false;
-		}
-	} 
-	else if (!grounded) {
-		if (velX > 0 || currentState == STOPPEDR) {
-			currentState = FALLR;
-			righted = true;
-		} 
-		else if (velX < 0 || currentState == STOPPEDL) {
-			currentState = FALLL;
-			righted = false;
-		}
-	} 
-	
-	
-	else if (velX > 0 && fireTime > 0) {
-		currentState = RIGHTS;
-		righted = true;
-	} 
-	
-	else if (velX > 0) {
-		currentState = RIGHT;
-		righted = true;
-	} 
-	
-	else if (velX < 0 && fireTime > 0) {
-		currentState = LEFTS;
-		righted = false;
-	} 
-	
-	else if (velX < 0) {
-		currentState = LEFT;
-		righted = false;
-	} 
-	
-	else {
-		if (righted && fireTime > 0) {
-			currentState = STOPPEDRS;
-			righted = true;
-		} 
-		
-		else if (righted) {
-			currentState = STOPPEDR;
-			righted = true;
-		} 
-		
-		else if (!righted && fireTime > 0) {
-			currentState = STOPPEDLS;
-			righted = false;
-		} 
-		
-		else if (!righted) {
-			currentState = STOPPEDL;
-			righted = false;
-		}
-	}*/
 }
 
 
 void Player::Jump() {
 	if (window->KeyDown(VK_SPACE) && jumpProgress >= jumpDistance && grounded) {
 		jumpProgress = 0;
-		collisionPrecision = 0;
 	}
 
 	// Caso esteja pulando -------------------
@@ -307,9 +237,12 @@ void Player::Jump() {
 		y -= jumpSpeed * gameTime;
 		jumpProgress += jumpHeight * gameTime;
 		velY = jumpSpeed * gameTime;
-		grounded = false;
 	} else { // Não está pulando
 		velY = 0;
+	}
+
+	if (upped) {
+		jumpProgress = jumpDistance + 1;
 	}
 }
 
@@ -317,22 +250,43 @@ void Player::Gravity() {
 	if (!grounded) {
 		y += gravityScale * gameTime;
 		velY += gravityScale * gameTime;
-	} else {
-		velY = 0;
-		y = y;
-		collisionPrecision = 0;
-		grounded = false;
-	}
+	} 
 }
 
 void Player::OnCollision(Object* obj) {
 	if (obj->Type() == TILE) {
-		grounded = true;
 
 		Tile* tile = (Tile*)obj;
 
-		Rect* rect = (Rect*)tile->bbox;
+		Rect* object = (Rect*)tile->bbox;
+		Rect* player = (Rect*)bbox;
 
-		collisionPrecision = rect->Top();
+		int objectScaleX = object->Right() - object->Left();
+
+		if (x > tile->X()) {
+			if (player->Left() - tile->X() < objectScaleX / 2 - 5) {
+				if (y < tile->Y()) {
+					grounded = true;
+					MoveTo(x, object->Top() - spriteSize/2 + 5);
+				} else {
+					upped = true;
+					MoveTo(x, object->Bottom() + spriteSize / 2);
+				}
+			} else {
+				lefted = true;
+			}
+		} else {
+			if (tile->X() - player->Right() < objectScaleX / 2 - 5) {
+				if (y < tile->Y()) {
+					grounded = true;
+					MoveTo(x, object->Top() - spriteSize / 2 + 5);
+				} else {
+					upped = true;
+					MoveTo(x, object->Bottom() + spriteSize / 2);
+				}
+			} else {
+				righted = true;
+			}
+		}
 	}
 }

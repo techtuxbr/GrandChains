@@ -8,7 +8,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	// Configura a janela do jogo -----
 	Engine::window->Mode(WINDOWED);
-	Engine::window->Size(1024, 768);
+	Engine::window->Size(1280, 720);
 	Engine::window->Color(25, 25, 25);
 	Engine::window->Title("GrandChains");
 	Engine::window->Icon(IDI_ICON);
