@@ -39,10 +39,10 @@ void Player::Update() {
 		Bullet* bullet;
 
 		if (facingRight) {
-			bullet = new Bullet(x + 50, y, actualLevel);
+			bullet = new Bullet(x + 50, y, 700, actualLevel, this);
 			bullet->Right();
 		} else {
-			bullet = new Bullet(x - 50, y, actualLevel);
+			bullet = new Bullet(x - 50, y, 700, actualLevel, this);
 			bullet->Left();
 		}
 		

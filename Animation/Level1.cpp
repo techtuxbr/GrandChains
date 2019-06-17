@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Tile.h"
 #include "Bullet.h"
+#include "Turret.h"
 // ---------------------
 
 Scene* Level1::scene = nullptr;
@@ -27,19 +28,22 @@ void Level1::Init() {
 	Tile* tile4 = new Tile(window->CenterX() - 200, window->CenterY() - 230);
 	scene->Add(tile4, STATIC);
 
+	Turret* turret = new Turret(window->CenterX() - 500, window->CenterY() - 100, LEVEL1);
+	scene->Add(turret, STATIC);
+
 	background = new Sprite("Resources/backgroundLevel1.jpg");
 }
 
 void Level1::Update() {
-	// habilita visualização da bounding box
-	if (window->KeyUp('B'))
+	// Habilita visualização da bounding box
+	if (window->KeyUp('B')) {
 		ctrlKeyB = true;
-
-	// habilita/desabilita visualização da bounding box
+	}
 	if (ctrlKeyB && window->KeyDown('B')) {
 		viewBBox = !viewBBox;
 		ctrlKeyB = false;
 	}
+	// -------------------------------------
 
 	// Sai do jogo com a tecla ESC ---------
 	if (window->KeyDown(VK_ESCAPE)) {

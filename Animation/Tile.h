@@ -14,7 +14,7 @@ private:
 	enum types {STATIC, MOVING};
 	uint platType;
 
-	Sprite* tile = nullptr;
+	Sprite* tile = new Sprite("Resources/tile.png");
 
 	int velX = NULL;		// Velocidade no eixo X
 	int velY = NULL;		// Velocidade no eixo Y
@@ -31,7 +31,6 @@ public:
 	Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY);	// Construtor de plataforma móvel
 	~Tile();																	// Destrutor
 
-	void OnCollision(Object* obj);
 	void Update();	// Atualiza lógica do jogo
 	void Draw();	// Desenha os quadros do jogo
 };

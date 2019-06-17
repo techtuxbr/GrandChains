@@ -6,7 +6,8 @@ enum ObjectsTypes {
 	PLAYER,
 	TILE,
 	BULLET,
-	ENEMY
+	ENEMY,
+	AREA
 };
 
 enum ListOfLevels {

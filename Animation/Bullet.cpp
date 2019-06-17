@@ -1,11 +1,14 @@
 #include "Bullet.h"
 
-Bullet::Bullet(int startX, int startY, uint level) {
+Bullet::Bullet(int startX, int startY, int vel, uint level, Object* father) {
 	bbox = new Rect(-12, -9, 12, 9);
 	type = BULLET;
 	MoveTo(startX, startY);
 	state = RIGHT;
 	actualLevel = level;
+	Bullet::father = father;
+	Bullet::vel = vel;
+	fatherType = father->Type();
 }
 
 Bullet::~Bullet() {
@@ -15,10 +18,20 @@ Bullet::~Bullet() {
 }
 
 void Bullet::OnCollision(Object* obj) {
-	if (obj->Type() == ENEMY) {
-
-	} else if (obj->Type() == TILE){
-		Delete();
+	if (fatherType == ENEMY) {
+		if (obj->Type() == PLAYER) {
+			Delete(obj);
+			Delete(this);
+		} else if (obj->Type() == TILE) {
+			Delete(this);
+		}
+	} else if (fatherType == PLAYER) {
+		if (obj->Type() == ENEMY) {
+			Delete(obj);
+			Delete(this);
+		} else if (obj->Type() == TILE) {
+			Delete(this);
+		}
 	}
 }
 
@@ -27,7 +40,7 @@ void Bullet::Update() {
 	bbox->MoveTo(x, y);
 
 	if (x > window->Width() || x < 0) {
-		Delete();
+		Delete(this);
 	}
 }
 
@@ -44,19 +57,30 @@ void Bullet::Draw() {
 }
 
 void Bullet::Right() {
-	velX = 700;
+	velX = vel;
 	state = RIGHT;
 }
 
 void Bullet::Left() {
-	velX = -700;
+	velX = -vel;
 	state = LEFT;
 }
 
-void Bullet::Delete() {
+void Bullet::Delete(Object* obj) {
+	uint type;
+	switch (obj->Type()) {
+		case ENEMY:
+			type = STATIC;
+			break;
+
+		default:
+			type = MOVING;
+			break;
+	}
+
 	switch (actualLevel) {
 		case LEVEL1:
-			Level1::scene->Delete(this, MOVING);
+			Level1::scene->Delete(obj, type);
 			break;
 	}
 }
