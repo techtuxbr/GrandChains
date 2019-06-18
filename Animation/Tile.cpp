@@ -61,21 +61,38 @@ void Tile::Draw() {
 void Tile::Define(uint platType) {
 	switch (platType) {
 		case FULL:
-			bbox = new Rect(-42, -84, 42, 84);
-			tile = new TileSet("Resources/tile.png", 84, 168, 1, 1);
+			bbox = new Rect(-16, -32, 16, 32);
+			tile = new TileSet("Resources/tile.png", 32, 64, 1, 1);
 			break;
 
 		case HALF:
-			bbox = new Rect(-42, -42, 42, 42);
-			tile = new TileSet("Resources/tile.png", 84, 84, 1, 1);
+			bbox = new Rect(-16, -16, 16, 16);
+			tile = new TileSet("Resources/tile.png", 32, 32, 1, 1);
 			break;
 
 		case JUST:
-			bbox = new Rect(-42, -21, 42, 21);
-			tile = new TileSet("Resources/tile.png", 84, 42, 1, 1);
+			bbox = new Rect(-16, -8, 16, 8);
+			tile = new TileSet("Resources/tile.png", 32, 16, 1, 1);
+			break;
+
+		case WALL:
+			bbox = new Rect(-4, -24, 4, 24);
+			tile = new TileSet("Resources/wall.png", 8, 48, 1, 1);
 			break;
 	}
 
 	tileAnim = new Animation(tile, 0, TRUE);
+}
+
+float Tile::Width() {
+	Rect* buffer = (Rect*)bbox;
+
+	return abs(buffer->Right() - buffer->Left());
+}
+
+float Tile::Height() {
+	Rect* buffer = (Rect*)bbox;
+
+	return abs(buffer->Top() - buffer->Bottom());
 }
 

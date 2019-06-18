@@ -6,7 +6,7 @@
 #include "Animation.h"
 // -------------------
 
-enum types { FULL, HALF, JUST };
+enum types { FULL, HALF, JUST , WALL};
 
 // Objeto do personagem principal -------------------------------------------------------
 class Tile : public Object {
@@ -34,6 +34,8 @@ public:
 	void Update();	// Atualiza lógica do jogo
 	void Draw();	// Desenha os quadros do jogo
 	void Define(uint platType);
+	float Width();
+	float Height();
 };
 // --------------------------------------------------------------------------------------
 
