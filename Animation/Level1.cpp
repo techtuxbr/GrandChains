@@ -100,7 +100,7 @@ void Level1::Init() {
 	Turret* turret = new Turret(window->CenterX(), window->CenterY() - 78, this, LEVEL1);
 	scene->Add(turret, STATIC);
 
-	background = new Sprite("Resources/backgroundLevel1.jpg");
+	
 }
 
 void Level1::Update() {

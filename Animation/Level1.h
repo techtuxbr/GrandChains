@@ -10,7 +10,7 @@
 // Classe da cena Level1 ----------------------------------------------
 class Level1 : public Game {
 private:
-	Sprite* background = nullptr;	// Background
+	Sprite* background = new Sprite("Resources/backgroundLevel1.png");	// Background
 
 	bool viewBBox = false;	// habilita visualização da bounding box
 	bool ctrlKeyB = false;	// habilita visualização da bounding box

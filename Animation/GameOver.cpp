@@ -5,14 +5,11 @@
 // ---------------------
 
 void GameOver::Init() {
-	scene = new Scene();
-
-	background = new Sprite("Resources/backgroundGameOver.jpg");
+	background = new Sprite("Resources/backgroundGameOver.png");
 }
 
 void GameOver::Finalize() {
 	delete background;
-	delete scene;
 }
 
 void GameOver::Update() {
@@ -23,16 +20,12 @@ void GameOver::Update() {
 	if (esc && window->KeyDown(VK_ESCAPE)) {
 		Engine::Next<StartScreen>();
 		esc = false;
-	} else {
-		scene->Update();
-		scene->CollisionDetection();
 	}
 	// ----------------------------
 }
 
 void GameOver::Draw() {
 	background->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
-	scene->Draw();
 }
 
 
