@@ -45,7 +45,8 @@ private:
 	TileSet*	fallLS			= new TileSet("Resources/fallLeftShooting.png", spriteSize, spriteSize, 2, 2);		// Sprite do estado caindo para a esquerda
 	Animation*	fallLSAnim		= new Animation(fallLS, 1.0 / 10.0, true);											// Animação do estado caindo para a esquerda
 
-	uint actualLevel;		// Informa o level atual do player
+	Game* actualLevel;		// Informa o level atual do player
+	uint level;		// Informa o level atual do player
 
 	bool upped		= false;	// Define se o jogador colidiu a cabeça
 	bool grounded	= false;	// Define se o jogador colidiu com o chão
@@ -65,7 +66,7 @@ private:
 	float gravityScale	= 270;		// Força da gravidade
 
 public:
-	Player(int startX, int startY, uint level);		// Construtor
+	Player(int startX, int startY, Game* actualScene, uint level);		// Construtor
 	~Player();										// Destrutor
 
 	void OnCollision(Object* obj);	// Detecta as colisões do player

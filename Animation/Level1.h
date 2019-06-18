@@ -14,13 +14,16 @@ private:
 
 	bool viewBBox = false;	// habilita visualização da bounding box
 	bool ctrlKeyB = false;	// habilita visualização da bounding box
+	bool ctrlKeyN = false;	// habilita visualização da bounding box
 public:
-	static Scene* scene;	// Gerenciador de cena
+	Scene* scene = nullptr;	// Gerenciador de cena
 
 	void Init();		// inicializa jogo
 	void Update();		// atualiza lógica do jogo
 	void Draw();		// desenha jogo
 	void Finalize();	// finaliza jogo
+
+	void AddObject(Object* obj, uint objType);
 };
 // --------------------------------------------------------------------
 

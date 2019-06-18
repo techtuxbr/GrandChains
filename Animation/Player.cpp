@@ -1,16 +1,16 @@
 #include "Player.h"
 #include "iostream"
 
-Player::Player(int startX, int startY, uint level) {
+Player::Player(int startX, int startY, Game* actualLevel, uint level) {
 	// Define tamanho da Bounding Box do player ------
 	bbox = new Rect(-spriteSize/2, -spriteSize/2, spriteSize/2, spriteSize/2);
 	// -----------------------------------------------
 
-	actualLevel = level;
-
 	// Define estados inciais ---------------------------
 	type = PLAYER;						// Tipo do objeto	
 	MoveTo(startX, startY);				// Posição incial
+	Player::level = level;
+	Player::actualLevel = actualLevel;
 	// --------------------------------------------------
 }
 
@@ -39,16 +39,18 @@ void Player::Update() {
 		Bullet* bullet;
 
 		if (facingRight) {
-			bullet = new Bullet(x + 50, y, 700, actualLevel, this);
+			bullet = new Bullet(x + 50, y, 700, actualLevel, level, this);
 			bullet->Right();
 		} else {
-			bullet = new Bullet(x - 50, y, 700, actualLevel, this);
+			bullet = new Bullet(x - 50, y, 700, actualLevel, level, this);
 			bullet->Left();
 		}
 		
-		switch (actualLevel) {
+		switch (level) {
 			case LEVEL1:
-				Level1::scene->Add(bullet, MOVING);
+				Level1* l1 = (Level1*)actualLevel;
+
+				l1->scene->Add(bullet, MOVING);
 				break;
 		}
 

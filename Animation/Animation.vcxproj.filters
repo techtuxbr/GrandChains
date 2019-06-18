@@ -102,6 +102,9 @@
     <ClCompile Include="DetectArea.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>Game\Arquivos de Origem\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="DetectArea.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>Game\Arquivos de Cabeçalho\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

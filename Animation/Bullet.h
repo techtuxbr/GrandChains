@@ -24,14 +24,15 @@ private:
 	float velX;			// Velocidade do player no eixo X
 	float vel;			// Velocidade do player no eixo X
 
-	uint actualLevel;	// Level que a bala está sendo renderizada
+	uint level;	// Level que a bala está sendo renderizada
+	Game* actualLevel;	// Level que a bala está sendo renderizada
 
 	Object* father;		// Dono da bala
 	uint fatherType;	// Tipo do dono da bala (Mantém integridade)
 
 public:
-	Bullet(int startX, int startY, int vel, uint actualLevel, Object* father);		// Construtor
-	~Bullet();																		// Destrutor
+	Bullet(int startX, int startY, int vel, Game* actualLevel, uint level, Object* father);		// Construtor
+	~Bullet();																					// Destrutor
 
 	void OnCollision(Object* obj);	// Detecta as colisões do player
 	void Update();					// Atualiza lógica do jogo

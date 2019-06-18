@@ -152,6 +152,7 @@
     <ClCompile Include="DetectArea.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GrandChains.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="DetectArea.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GrandChains.h" />
     <ClInclude Include="Graphics.h" />

@@ -1,13 +1,14 @@
 #include "Bullet.h"
 
-Bullet::Bullet(int startX, int startY, int vel, uint level, Object* father) {
+Bullet::Bullet(int startX, int startY, int vel, Game* actualLevel, uint level, Object* father) {
 	bbox = new Rect(-12, -9, 12, 9);
 	type = BULLET;
 	MoveTo(startX, startY);
 	state = RIGHT;
-	actualLevel = level;
+	Bullet::level = level;
 	Bullet::father = father;
 	Bullet::vel = vel;
+	Bullet::actualLevel = actualLevel;
 	fatherType = father->Type();
 }
 
@@ -78,9 +79,11 @@ void Bullet::Delete(Object* obj) {
 			break;
 	}
 
-	switch (actualLevel) {
+	switch (level) {
 		case LEVEL1:
-			Level1::scene->Delete(obj, type);
+			Level1* l1 = (Level1*)actualLevel;
+
+			l1->scene->Delete(obj, type);
 			break;
 	}
 }

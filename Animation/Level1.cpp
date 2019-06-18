@@ -6,14 +6,13 @@
 #include "Tile.h"
 #include "Bullet.h"
 #include "Turret.h"
+#include "GameOver.h"
 // ---------------------
-
-Scene* Level1::scene = nullptr;
 
 void Level1::Init() {
 	scene = new Scene();
 
-	Player* player = new Player(100, window->CenterY() - 360, LEVEL1);
+	Player* player = new Player(100, window->CenterY() - 360, this, LEVEL1);
 	scene->Add(player, MOVING);
 
 	float startX = 16;
@@ -98,9 +97,8 @@ void Level1::Init() {
 	Tile* tile9 = new Tile(startX * 27, window->Height() - startY, FULL);
 	scene->Add(tile9, STATIC);
 
-
-	/*Turret* turret = new Turret(window->CenterX() - 500, window->CenterY() - 78, LEVEL1);
-	scene->Add(turret, STATIC);*/
+	Turret* turret = new Turret(window->CenterX(), window->CenterY() - 78, this, LEVEL1);
+	scene->Add(turret, STATIC);
 
 	background = new Sprite("Resources/backgroundLevel1.jpg");
 }
@@ -119,6 +117,8 @@ void Level1::Update() {
 	// Sai do jogo com a tecla ESC ---------
 	if (window->KeyDown(VK_ESCAPE)) {
 		Engine::Next<StartScreen>();
+	} else if (window->KeyDown('N')) {
+		Engine::Next<GameOver>();
 	} else {
 		scene->Update();
 		scene->CollisionDetection();
@@ -152,4 +152,9 @@ void Level1::Finalize() {
 	delete background;
 	delete scene;
 }
+
+void Level1::AddObject(Object* obj, uint objType) {
+	scene->Add(obj, objType);
+}
+
 

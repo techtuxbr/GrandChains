@@ -17,7 +17,9 @@ private:
 	bool shooting;
 	bool facingRight = true;
 
-	uint actualLevel;
+	Game* actualLevel;
+
+	uint level;
 	uint state = RIGHT;
 
 	float fireTime = 0;
@@ -31,7 +33,7 @@ private:
 	DetectArea* detectArea = nullptr;
 
 public:
-	Turret(int startX, int startY, uint actualLevel);												// Construtor de plataforma estática
+	Turret(int startX, int startY, Game* actualLevel, uint level);				// Construtor de plataforma estática
 	~Turret();																	// Destrutor
 
 	void Update();		// Atualiza lógica do jogo

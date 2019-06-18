@@ -18,6 +18,7 @@ void StartScreen::Update() {
 	}
 	if (esc && window->KeyDown(VK_ESCAPE)) {
 		window->Close();
+		esc = false;
 	}
 	// ----------------------------
 

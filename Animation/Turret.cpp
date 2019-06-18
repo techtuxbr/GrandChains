@@ -1,15 +1,18 @@
 #include "Turret.h"
 
-Turret::Turret(int startX, int startY, uint actualLevel) {
+Turret::Turret(int startX, int startY, Game* actualLevel, uint level) {
 	bbox = new Rect(-50, -50, 50, 50);
 	type = ENEMY;
 	MoveTo(startX, startY, Layer::FRONT);
 	detectArea = new DetectArea(x, y, 500, 200, this);
+	Turret::level = level;
 	Turret::actualLevel = actualLevel;
 
-	switch (actualLevel) {
+	switch (Turret::level) {
 		case LEVEL1:
-			Level1::scene->Add(detectArea, STATIC);
+			Level1* l1 = (Level1*)Turret::actualLevel;
+
+			l1->scene->Add(detectArea, STATIC);
 			break;
 	}
 
@@ -21,9 +24,11 @@ Turret::~Turret() {
 	delete turretL;
 	delete turretLAnim;
 
-	switch (actualLevel) {
+	switch (level) {
 		case LEVEL1:
-			Level1::scene->Delete(detectArea, STATIC);
+			Level1* l1 = (Level1*)actualLevel;
+
+			l1->scene->Delete(detectArea, STATIC);
 			break;
 			
 	}
@@ -34,16 +39,18 @@ void Turret::Update() {
 		Bullet* bullet;
 
 		if (facingRight) {
-			bullet = new Bullet(x + 50, y, 500, actualLevel, this);
+			bullet = new Bullet(x + 50, y, 500, actualLevel, level, this);
 			bullet->Right();
 		} else {
-			bullet = new Bullet(x - 50, y, 500, actualLevel, this);
+			bullet = new Bullet(x - 50, y, 500, actualLevel, level, this);
 			bullet->Left();
 		}
 
-		switch (actualLevel) {
+		switch (level) {
 			case LEVEL1:
-				Level1::scene->Add(bullet, MOVING);
+				Level1* l1 = (Level1*)actualLevel;
+
+				l1->scene->Add(bullet, MOVING);
 				break;
 		}
 
