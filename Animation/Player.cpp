@@ -262,8 +262,26 @@ void Player::OnCollision(Object* obj) {
 		Rect* player = (Rect*)bbox;
 
 		int objectScaleX = object->Right() - object->Left();
+		int objectScaleY = object->Bottom() - object->Top();
 
-		if (x > tile->X()) {
+		
+		if (player->Right() > object->Left() + 5 && player->Left() < object->Right() - 5) {
+			if (y < tile->Y()) {
+				grounded = true;
+				MoveTo(x, object->Top() - spriteSize / 2 + 5);
+			} else {
+				upped = true;
+				MoveTo(x, object->Bottom() + spriteSize / 2);
+			}
+		} else {
+			if (x > tile->X() && y != object->Top() - spriteSize / 2 + 5) {
+				lefted = true;
+			} else if (x < tile->X() && y != object->Top() - spriteSize / 2 + 5){
+				righted = true;
+			}
+		}
+
+		/*if (x > tile->X()) {
 			if (player->Left() - tile->X() < objectScaleX / 2 - 5) {
 				if (y < tile->Y()) {
 					grounded = true;
@@ -287,6 +305,6 @@ void Player::OnCollision(Object* obj) {
 			} else {
 				righted = true;
 			}
-		}
+		}*/
 	}
 }

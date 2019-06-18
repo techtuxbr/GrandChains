@@ -19,7 +19,7 @@ void Level1::Init() {
 	Tile* tile = new Tile(window->CenterX(), window->CenterY());
 	scene->Add(tile, STATIC);
 	
-	Tile* tile2 = new Tile(window->CenterX() - 500, window->CenterY());
+	Tile* tile2 = new Tile(window->CenterX() + 256, window->CenterY());
 	scene->Add(tile2, STATIC);
 	
 	Tile* tile3 = new Tile(window->CenterX() + 500, window->CenterY(), 0, 200, 0, 400);
@@ -28,7 +28,7 @@ void Level1::Init() {
 	Tile* tile4 = new Tile(window->CenterX() - 200, window->CenterY() - 230);
 	scene->Add(tile4, STATIC);
 
-	Turret* turret = new Turret(window->CenterX() - 500, window->CenterY() - 100, LEVEL1);
+	Turret* turret = new Turret(window->CenterX() - 500, window->CenterY() - 78, LEVEL1);
 	scene->Add(turret, STATIC);
 
 	background = new Sprite("Resources/backgroundLevel1.jpg");

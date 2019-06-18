@@ -3,14 +3,14 @@
 #include "Sprite.h"
 
 Tile::Tile(int startX, int startY) {
-	bbox = new Rect(-126, -36, 126, 36);
+	bbox = new Rect(-128, -22, 126, 22);
 	type = TILE;
 	platType = STATIC;
 	MoveTo(startX, startY, Layer::FRONT);
 }
 
 Tile::Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY) {
-	bbox = new Rect(-126, -36, 126, 36);
+	bbox = new Rect(-128, -22, 126, 22);
 	type = TILE;
 	platType = MOVING;
 	tile = new Sprite("Resources/tile.png");
