@@ -105,6 +105,9 @@
     <ClCompile Include="GameOver.cpp">
       <Filter>Game\Arquivos de Origem\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="GameOver.h">
       <Filter>Game\Arquivos de Cabeçalho\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

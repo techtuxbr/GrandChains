@@ -23,6 +23,9 @@ void Bullet::OnCollision(Object* obj) {
 		if (obj->Type() == PLAYER) {
 			Delete(obj);
 			Delete(this);
+
+			Player* p = (Player*)obj;
+			p->setDead(true);
 		} else if (obj->Type() == TILE) {
 			Delete(this);
 		}

@@ -1,106 +1,43 @@
 // Includes ------------
-#include "Engine.h"
 #include "Level1.h"
 #include "StartScreen.h"
-#include "Player.h"
+#include "GameOver.h"
 #include "Tile.h"
 #include "Bullet.h"
 #include "Turret.h"
-#include "GameOver.h"
+#include "Engine.h"
+#include "Ground.h"
 // ---------------------
 
 void Level1::Init() {
 	scene = new Scene();
 
-	Player* player = new Player(100, window->CenterY() - 360, this, LEVEL1);
+	player = new Player(100, window->CenterY(), this, LEVEL1);
 	scene->Add(player, MOVING);
 
-	float startX = 16;
-	float startY = 32;
-	float wallSX = 4;
-	float wallSY = 24;
+	Ground* ground = new Ground(0, window->Height(), 550, 200);
+	scene->Add(ground, STATIC);
 
-	Tile* wall = new Tile(wallSX, window->Height() - wallSY * 3, WALL);
-	scene->Add(wall, STATIC);
-	Tile* wall2 = new Tile(wallSX, window->Height() - wallSY * 5, WALL);
-	scene->Add(wall2, STATIC);
-	Tile* wall3 = new Tile(wallSX, window->Height() - wallSY * 7, WALL);
-	scene->Add(wall3, STATIC);
-	Tile* wall4 = new Tile(wallSX, window->Height() - wallSY * 9, WALL);
-	scene->Add(wall4, STATIC);
-	Tile* wall5 = new Tile(wallSX, window->Height() - wallSY * 11, WALL);
-	scene->Add(wall5, STATIC);
-	Tile* wall6 = new Tile(wallSX, window->Height() - wallSY * 13, WALL);
-	scene->Add(wall6, STATIC);
-	Tile* wall7 = new Tile(wallSX, window->Height() - wallSY * 15, WALL);
-	scene->Add(wall7, STATIC);
-	Tile* wall8 = new Tile(wallSX, window->Height() - wallSY * 17, WALL);
-	scene->Add(wall8, STATIC);
-	Tile* wall9 = new Tile(wallSX, window->Height() - wallSY * 19, WALL);
-	scene->Add(wall9, STATIC);
-	Tile* wall10 = new Tile(wallSX, window->Height() - wallSY * 21, WALL);
-	scene->Add(wall10, STATIC);
-	Tile* wall11 = new Tile(wallSX, window->Height() - wallSY * 23, WALL);
-	scene->Add(wall11, STATIC);
-	Tile* wall12 = new Tile(wallSX, window->Height() - wallSY * 25, WALL);
-	scene->Add(wall12, STATIC);
-	Tile* wall13 = new Tile(wallSX, window->Height() - wallSY * 27, WALL);
-	scene->Add(wall13, STATIC);
-	Tile* wall14 = new Tile(wallSX, window->Height() - wallSY * 29, WALL);
-	scene->Add(wall14, STATIC);
+	Ground* ground1 = new Ground(761, window->Height(), 630, 200);
+	scene->Add(ground1, STATIC);
 
-	Tile* wall15 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 3, WALL);
-	scene->Add(wall15, STATIC);
-	Tile* wall16 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 5, WALL);
-	scene->Add(wall16, STATIC);
-	Tile* wall17 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 7, WALL);
-	scene->Add(wall17, STATIC);
-	Tile* wall18 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 9, WALL);
-	scene->Add(wall18, STATIC);
-	Tile* wall19 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 11, WALL);
-	scene->Add(wall19, STATIC);
-	Tile* wall20 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 13, WALL);
-	scene->Add(wall20, STATIC);
-	Tile* wall21 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 15, WALL);
-	scene->Add(wall21, STATIC);
-	Tile* wall22 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 17, WALL);
-	scene->Add(wall22, STATIC);
-	Tile* wall23 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 19, WALL);
-	scene->Add(wall23, STATIC);
-	Tile* wall24 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 21, WALL);
-	scene->Add(wall24, STATIC);
-	Tile* wall25 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 23, WALL);
-	scene->Add(wall25, STATIC);
-	Tile* wall26 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 25, WALL);
-	scene->Add(wall26, STATIC);
-	Tile* wall27 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 27, WALL);
-	scene->Add(wall27, STATIC);
-	Tile* wall28 = new Tile(window->Width() - wallSX, window->Height() - wallSY * 29, WALL);
-	scene->Add(wall28, STATIC);
+	Ground* ground2 = new Ground(365, 182, 275, 50);
+	scene->Add(ground2, STATIC);
+	
+	Ground* ground3 = new Ground(899, 182, 368, 50);
+	scene->Add(ground3, STATIC);
 
-	Tile* tile = new Tile(startX, window->Height() - startY, FULL);
+	Ground* ground4 = new Ground(882, 580, 390, 125);
+	scene->Add(ground4, STATIC);
+
+	Tile* tile = new Tile(window->Width() - 64, 325, 0, 200, 0, 400, HALF);
 	scene->Add(tile, STATIC);
-	Tile* tile2 = new Tile(startX * 3, window->Height() - startY, FULL);
-	scene->Add(tile2, STATIC);
-	Tile* tile3 = new Tile(startX * 5, window->Height() - startY, FULL);
-	scene->Add(tile3, STATIC);
-	Tile* tile4 = new Tile(startX * 7, window->Height() - startY, FULL);
-	scene->Add(tile4, STATIC);
-	Tile* tile5 = new Tile(startX * 9, window->Height() - startY, FULL);
-	scene->Add(tile5, STATIC);
-	Tile* tile6 = new Tile(startX * 11, window->Height() - startY, FULL);
-	scene->Add(tile6, STATIC);
-	Tile* tile7 = new Tile(startX * 23, window->Height() - startY, FULL);
-	scene->Add(tile7, STATIC);
-	Tile* tile8 = new Tile(startX * 25, window->Height() - startY, FULL);
-	scene->Add(tile8, STATIC);
-	Tile* tile9 = new Tile(startX * 27, window->Height() - startY, FULL);
-	scene->Add(tile9, STATIC);
+	
+	Tile* tile1 = new Tile(window->Width() - 96, 325, 0, 200, 0, 400, HALF);
+	scene->Add(tile1, STATIC);
 
 	Turret* turret = new Turret(window->CenterX(), window->CenterY() - 78, this, LEVEL1);
 	scene->Add(turret, STATIC);
-
-	
 }
 
 void Level1::Update() {
@@ -117,7 +54,7 @@ void Level1::Update() {
 	// Sai do jogo com a tecla ESC ---------
 	if (window->KeyDown(VK_ESCAPE)) {
 		Engine::Next<StartScreen>();
-	} else if (window->KeyDown('N')) {
+	} else if (player->isDead()) {
 		Engine::Next<GameOver>();
 	} else {
 		scene->Update();

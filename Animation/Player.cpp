@@ -1,5 +1,7 @@
 #include "Player.h"
-#include "iostream"
+#include "GrandChains.h"
+#include "Tile.h"
+#include "Bullet.h"
 
 Player::Player(int startX, int startY, Game* actualLevel, uint level) {
 	// Define tamanho da Bounding Box do player ------
@@ -228,7 +230,6 @@ void Player::StateMachine() {
 	}
 }
 
-
 void Player::Jump() {
 	if (window->KeyDown(VK_SPACE) && jumpProgress >= jumpDistance && grounded) {
 		jumpProgress = 0;
@@ -267,18 +268,18 @@ void Player::OnCollision(Object* obj) {
 		int objectScaleY = object->Bottom() - object->Top();
 
 		
-		if (player->Right() > object->Left() + 5 && player->Left() < object->Right() - 5) {
+		if (player->Right() > object->Left() + 5 && player->Left() < object->Right() - 6) {
 			if (y < tile->Y()) {
 				grounded = true;
-				MoveTo(x, object->Top() - spriteSize / 2 + 5);
+				MoveTo(x, object->Top() - spriteSize / 2 + 6);
 			} else {
 				upped = true;
 				MoveTo(x, object->Bottom() + spriteSize / 2);
 			}
 		} else {
-			if (x > tile->X() && y != object->Top() - spriteSize / 2 + 5) {
+			if (x > tile->X() && y != object->Top() - spriteSize / 2 + 6) {
 				lefted = true;
-			} else if (x < tile->X() && y != object->Top() - spriteSize / 2 + 5){
+			} else if (x < tile->X() && y != object->Top() - spriteSize / 2 + 6){
 				righted = true;
 			}
 		}
@@ -309,4 +310,12 @@ void Player::OnCollision(Object* obj) {
 			}
 		}*/
 	}
+}
+
+void Player::setDead(bool state) {
+	dead = state;
+}
+
+bool Player::isDead() {
+	return dead;
 }

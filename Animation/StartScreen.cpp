@@ -23,8 +23,12 @@ void StartScreen::Update() {
 	// ----------------------------
 
 	// Passa ao primeiro nível com ENTER
-	if (window->KeyDown(VK_RETURN)) {
+	if (window->KeyUp(VK_RETURN)) {
+		ent = true;
+	}
+	if (ent && window->KeyDown(VK_RETURN)) {
 		Engine::Next<Level1>();
+		ent = false;
 	}
 	// ---------------------------------	
 }

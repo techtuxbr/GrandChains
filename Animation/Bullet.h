@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "GrandChains.h"
 #include "Level1.h"
+#include "Player.h"
 // -------------------
 
 // Objeto do personagem principal ---------------------------------------------------------------------------------------------------

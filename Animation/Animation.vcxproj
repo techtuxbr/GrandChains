@@ -156,6 +156,7 @@
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GrandChains.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GrandChains.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Object.h" />

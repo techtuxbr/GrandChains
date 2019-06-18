@@ -13,15 +13,15 @@ void GameOver::Finalize() {
 }
 
 void GameOver::Update() {
-	// Sai do jogo com a tecla ESC
-	if (window->KeyUp(VK_ESCAPE)) {
+	// Sai do jogo com a tecla ESC ---
+	if (window->KeyUp(VK_RETURN)) {
 		esc = true;
 	}
-	if (esc && window->KeyDown(VK_ESCAPE)) {
+	if (esc && window->KeyDown(VK_RETURN)) {
 		Engine::Next<StartScreen>();
 		esc = false;
 	}
-	// ----------------------------
+	// -------------------------------
 }
 
 void GameOver::Draw() {

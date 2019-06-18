@@ -5,10 +5,7 @@
 #include "Object.h"
 #include "Animation.h"
 #include "TileSet.h"
-#include "GrandChains.h"
-#include "Tile.h"
-#include "Bullet.h"
-#include "Level1.h"
+#include "Game.h"
 // -------------------
 
 // Objeto do personagem principal ---------------------------------------------------------------------------------------------------
@@ -52,6 +49,7 @@ private:
 	bool grounded	= false;	// Define se o jogador colidiu com o chão
 	bool righted	= false;	// Define se o jogador não pode andar pra direita
 	bool lefted		= false;	// Define se o jogador não pode andar pra esquerda
+	bool dead		= false;
 
 	int facingRight	= true;		// Define se jogador está virado para a direita
 	float fireTime	= -1;
@@ -76,6 +74,9 @@ public:
 	void Jump();					// Realiza o pulo do personagem
 	void Gravity();					// Aplica gravidade ao objeto
 	void StateMachine();			// Interpretador de estados
+
+	void setDead(bool state);
+	bool isDead();
 };
 // ----------------------------------------------------------------------------------------------------------------------------------
 
