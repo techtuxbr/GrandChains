@@ -16,16 +16,16 @@ void Level1::Init() {
 	Player* player = new Player(window->CenterX(), window->CenterY() - 100, LEVEL1);
 	scene->Add(player, MOVING);
 
-	Tile* tile = new Tile(window->CenterX(), window->CenterY());
+	Tile* tile = new Tile(window->CenterX(), window->CenterY(), FULL);
 	scene->Add(tile, STATIC);
 	
-	Tile* tile2 = new Tile(window->CenterX() + 256, window->CenterY());
+	Tile* tile2 = new Tile(window->CenterX() + 256, window->CenterY(), FULL);
 	scene->Add(tile2, STATIC);
 	
-	Tile* tile3 = new Tile(window->CenterX() + 500, window->CenterY(), 0, 200, 0, 400);
+	Tile* tile3 = new Tile(window->CenterX() + 500, window->CenterY(), 0, 200, 0, 400, FULL);
 	scene->Add(tile3, STATIC);
 	
-	Tile* tile4 = new Tile(window->CenterX() - 200, window->CenterY() - 230);
+	Tile* tile4 = new Tile(window->CenterX() - 200, window->CenterY() - 230, HALF);
 	scene->Add(tile4, STATIC);
 
 	Turret* turret = new Turret(window->CenterX() - 500, window->CenterY() - 78, LEVEL1);

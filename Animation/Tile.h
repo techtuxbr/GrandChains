@@ -3,18 +3,16 @@
 
 // Includes ----------
 #include "Object.h"
-#include "Sprite.h"
 #include "Animation.h"
-#include "TileSet.h"
 // -------------------
+
+enum types { FULL, HALF, JUST };
 
 // Objeto do personagem principal -------------------------------------------------------
 class Tile : public Object {
 private:
-	enum types {STATIC, MOVING};
-	uint platType;
-
-	Sprite* tile = new Sprite("Resources/tile.png");
+	TileSet* tile;
+	Animation* tileAnim;
 
 	int velX = NULL;		// Velocidade no eixo X
 	int velY = NULL;		// Velocidade no eixo Y
@@ -26,13 +24,16 @@ private:
 	int originX;
 	int originY;
 
+	bool moving;
+
 public:
-	Tile(int startX, int startY);												// Construtor de plataforma estática
-	Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY);	// Construtor de plataforma móvel
-	~Tile();																	// Destrutor
+	Tile(int startX, int startY, uint platType);												// Construtor de plataforma estática
+	Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY, uint platType);	// Construtor de plataforma móvel
+	~Tile();																					// Destrutor
 
 	void Update();	// Atualiza lógica do jogo
 	void Draw();	// Desenha os quadros do jogo
+	void Define(uint platType);
 };
 // --------------------------------------------------------------------------------------
 

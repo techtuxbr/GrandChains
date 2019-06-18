@@ -2,18 +2,17 @@
 #include "Tile.h"
 #include "Sprite.h"
 
-Tile::Tile(int startX, int startY) {
-	bbox = new Rect(-128, -22, 126, 22);
+Tile::Tile(int startX, int startY, uint platType) {
 	type = TILE;
-	platType = STATIC;
+	moving = false;
 	MoveTo(startX, startY, Layer::FRONT);
+
+	Define(platType);
 }
 
-Tile::Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY) {
-	bbox = new Rect(-128, -22, 126, 22);
+Tile::Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY, uint platType) {
 	type = TILE;
-	platType = MOVING;
-	tile = new Sprite("Resources/tile.png");
+	moving = true;
 	MoveTo(startX, startY, Layer::FRONT);
 
 	Tile::velX = velX;
@@ -23,6 +22,8 @@ Tile::Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY) {
 
 	originX = x;
 	originY = y;
+
+	Define(platType);
 }
 
 
@@ -31,7 +32,7 @@ Tile::~Tile() {
 }
 
 void Tile::Update() {
-	if (platType == MOVING) {
+	if (moving) {
 		if (velX != 0) {
 			if (x >= originX + rangeX / 2) {
 				velX = -200;
@@ -47,7 +48,6 @@ void Tile::Update() {
 				velY = 200;
 			}
 		}
-
 	}
 
 	Translate(velX * gameTime, velY * gameTime);
@@ -55,6 +55,27 @@ void Tile::Update() {
 }
 
 void Tile::Draw() {
-	tile->Draw(x, y, Layer::FRONT);
+	tileAnim->Draw(x, y, Layer::FRONT);
+}
+
+void Tile::Define(uint platType) {
+	switch (platType) {
+		case FULL:
+			bbox = new Rect(-42, -84, 42, 84);
+			tile = new TileSet("Resources/tile.png", 84, 168, 1, 1);
+			break;
+
+		case HALF:
+			bbox = new Rect(-42, -42, 42, 42);
+			tile = new TileSet("Resources/tile.png", 84, 84, 1, 1);
+			break;
+
+		case JUST:
+			bbox = new Rect(-42, -21, 42, 21);
+			tile = new TileSet("Resources/tile.png", 84, 42, 1, 1);
+			break;
+	}
+
+	tileAnim = new Animation(tile, 0, TRUE);
 }
 
