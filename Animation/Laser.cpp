@@ -51,6 +51,15 @@ Laser::Laser(int startX, int startY, uint direction, float fireTime, float fireO
 Laser::~Laser() {
 	delete ejector;
 	delete fire;
+
+	switch (level) {
+		case LEVEL1:
+			Level1* l1 = (Level1*)actualLevel;
+
+			l1->scene->Delete(detectArea, STATIC);
+			break;
+
+	}
 }
 
 void Laser::Update() {

@@ -3,10 +3,12 @@
 #include "Level1.h"
 
 void StartScreen::Init() {
+	scene = new Scene();
 	background = new Sprite("Resources/startScreen.png");
 }
 
 void StartScreen::Finalize() {
+	delete scene;
 	delete background;
 }
 
@@ -28,10 +30,13 @@ void StartScreen::Update() {
 	if (ent && window->KeyDown(VK_RETURN)) {
 		Engine::Next<Level1>();
 		ent = false;
+	} else {
+		scene->Update();
 	}
 	// ---------------------------------	
 }
 
 void StartScreen::Draw() {
 	background->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
+	scene->Draw();
 }

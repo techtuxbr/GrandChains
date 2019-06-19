@@ -4,14 +4,16 @@
 // Includes -------
 #include "Game.h"
 #include "Sprite.h"
+#include "Scene.h"
 // ----------------
 
 // Objeto da tela principal -------------------------------------------
 class StartScreen : public Game {
 private:
-	Sprite* background = nullptr;				// Background
-	bool	esc = false;						// Controla o pressionamento do ESC
-	bool	ent = false;						// Controla o pressionamento do Enter
+	Scene* scene;
+	Sprite* background = nullptr;	// Background
+	bool	esc = false;			// Controla o pressionamento do ESC
+	bool	ent = false;			// Controla o pressionamento do Enter
 
 public:
 	void Init();		// inicializa jogo

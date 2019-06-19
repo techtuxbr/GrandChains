@@ -10,6 +10,7 @@
 // Classe da cena GameOver ----------------------------------------------
 class GameOver : public Game {
 private:
+	Scene*	scene;
 	Sprite* background	= nullptr;	// Background
 	bool	esc			= false;	// Controla o pressionamento do ESC
 
