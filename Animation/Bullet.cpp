@@ -21,11 +21,10 @@ Bullet::~Bullet() {
 void Bullet::OnCollision(Object* obj) {
 	if (fatherType == ENEMY) {
 		if (obj->Type() == PLAYER) {
-			Delete(obj);
 			Delete(this);
 
 			Player* p = (Player*)obj;
-			p->setDead(true);
+ 			p->Damage();
 		} else if (obj->Type() == TILE) {
 			Delete(this);
 		}

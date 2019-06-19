@@ -6,6 +6,7 @@
 #include "Animation.h"
 #include "TileSet.h"
 #include "Game.h"
+#include "Life.h"
 // -------------------
 
 // Objeto do personagem principal ---------------------------------------------------------------------------------------------------
@@ -51,6 +52,11 @@ private:
 	bool lefted		= false;	// Define se o jogador não pode andar pra esquerda
 	bool dead		= false;
 
+	int lifeQnt;
+	Life* life1 = new Life(25, 20);
+	Life* life2 = new Life(25, 50);
+	Life* life3 = new Life(25, 80);
+
 	int facingRight	= true;		// Define se jogador está virado para a direita
 	float fireTime	= -1;
 
@@ -75,7 +81,8 @@ public:
 	void Gravity();					// Aplica gravidade ao objeto
 	void StateMachine();			// Interpretador de estados
 
-	void setDead(bool state);
+	void Damage();
+	int getLife();
 	bool isDead();
 };
 // ----------------------------------------------------------------------------------------------------------------------------------

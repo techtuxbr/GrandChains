@@ -38,6 +38,7 @@ void Level1::Init() {
 
 	Turret* turret = new Turret(window->CenterX(), window->CenterY() - 78, this, LEVEL1);
 	scene->Add(turret, STATIC);
+	PlaySound("Resources/theme.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 }
 
 void Level1::Update() {
@@ -88,10 +89,7 @@ void Level1::Draw() {
 void Level1::Finalize() {
 	delete background;
 	delete scene;
-}
-
-void Level1::AddObject(Object* obj, uint objType) {
-	scene->Add(obj, objType);
+	PlaySound(NULL, NULL, 0);
 }
 
 

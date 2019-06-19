@@ -1,6 +1,5 @@
 #include "GrandChains.h"
 #include "Ground.h"
-#include "Sprite.h"
 
 Ground::Ground(int startX, int startY, int width, int height) {
 	type = TILE;

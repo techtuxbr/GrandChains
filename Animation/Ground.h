@@ -18,9 +18,6 @@ public:
 
 	void Update();	// Atualiza lógica do jogo
 	void Draw();	// Desenha os quadros do jogo
-	void Define(uint platType);
-	float Width();
-	float Height();
 };
 // --------------------------------------------------------------------------------------
 

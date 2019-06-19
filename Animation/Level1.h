@@ -25,8 +25,6 @@ public:
 	void Update();		// atualiza lógica do jogo
 	void Draw();		// desenha jogo
 	void Finalize();	// finaliza jogo
-
-	void AddObject(Object* obj, uint objType);
 };
 // --------------------------------------------------------------------
 

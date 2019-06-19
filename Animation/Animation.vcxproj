@@ -159,6 +159,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Level1.cpp" />
+    <ClCompile Include="Life.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Level1.h" />
+    <ClInclude Include="Life.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />

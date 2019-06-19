@@ -13,7 +13,20 @@ Player::Player(int startX, int startY, Game* actualLevel, uint level) {
 	MoveTo(startX, startY);				// Posição incial
 	Player::level = level;
 	Player::actualLevel = actualLevel;
+	lifeQnt = 3;
 	// --------------------------------------------------
+
+	switch (level) {
+		case LEVEL1:
+			Level1* l1 = (Level1*)actualLevel;
+
+			l1->scene->Add(life1, STATIC);
+			l1->scene->Add(life2, STATIC);
+			l1->scene->Add(life3, STATIC);
+			break;
+	}
+
+	
 }
 
 Player::~Player() {
@@ -312,8 +325,32 @@ void Player::OnCollision(Object* obj) {
 	}
 }
 
-void Player::setDead(bool state) {
-	dead = state;
+void Player::Damage() {
+	lifeQnt--;
+	if (lifeQnt == 0) {
+		dead = true;
+	} else {
+		switch (level) {
+			case LEVEL1:
+				Level1* l1 = (Level1*)actualLevel;
+
+				switch (lifeQnt) {
+					case 1:
+						l1->scene->Delete(life2, STATIC);
+						break;
+					case 2:
+						l1->scene->Delete(life1, STATIC);
+						break;
+
+				}
+
+				break;
+		}
+	}
+}
+
+int Player::getLife() {
+	return lifeQnt;
 }
 
 bool Player::isDead() {
