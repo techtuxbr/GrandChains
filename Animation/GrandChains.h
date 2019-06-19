@@ -11,7 +11,13 @@ enum ObjectsTypes {
 };
 
 enum ListOfLevels {
-	LEVEL1
+	LEVEL1,
+	LEVEL2
+};
+
+enum enemyTypes {
+	TURRET,
+	LASER
 };
 // ------------------------
 

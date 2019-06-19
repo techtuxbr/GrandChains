@@ -10,7 +10,6 @@
 class StartScreen : public Game {
 private:
 	Sprite* background = nullptr;				// Background
-	Sprite* enter = nullptr;					// Pressione Enter
 	bool	esc = false;						// Controla o pressionamento do ESC
 	bool	ent = false;						// Controla o pressionamento do Enter
 

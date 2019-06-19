@@ -1,16 +1,17 @@
 #include "Turret.h"
+#include "Level1.h"
 
-Turret::Turret(int startX, int startY, Game* actualLevel, uint level) {
-	bbox = new Rect(-50, -50, 50, 50);
+Turret::Turret(int startX, int startY, float bboX1, float bboxY1, float bboX2, float bboxY2, Game* actualLevel, uint level) {
+	bbox = new Rect(-60, -37, 60, 37);
 	type = ENEMY;
 	MoveTo(startX, startY, Layer::FRONT);
-	detectArea = new DetectArea(x, y, 500, 200, this);
+	detectArea = new DetectArea(x, y, bboX1, bboxY1, bboX2, bboxY2, actualLevel, level, this, TURRET);
 	Turret::level = level;
 	Turret::actualLevel = actualLevel;
 
-	switch (Turret::level) {
+	switch (level) {
 		case LEVEL1:
-			Level1* l1 = (Level1*)Turret::actualLevel;
+			Level1* l1 = (Level1*)actualLevel;
 
 			l1->scene->Add(detectArea, STATIC);
 			break;

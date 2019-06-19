@@ -281,7 +281,7 @@ void Player::OnCollision(Object* obj) {
 		int objectScaleY = object->Bottom() - object->Top();
 
 		
-		if (player->Right() > object->Left() + 5 && player->Left() < object->Right() - 6) {
+		if (player->Right() > object->Left() + 6 && player->Left() < object->Right() - 6) {
 			if (y < tile->Y()) {
 				grounded = true;
 				MoveTo(x, object->Top() - spriteSize / 2 + 6);

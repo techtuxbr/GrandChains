@@ -7,6 +7,7 @@
 #include "Turret.h"
 #include "Engine.h"
 #include "Ground.h"
+#include "Laser.h"
 // ---------------------
 
 void Level1::Init() {
@@ -36,8 +37,12 @@ void Level1::Init() {
 	Tile* tile1 = new Tile(window->Width() - 96, 325, 0, 200, 0, 400, HALF);
 	scene->Add(tile1, STATIC);
 
-	Turret* turret = new Turret(window->CenterX(), window->CenterY() - 78, this, LEVEL1);
+	Turret* turret = new Turret(1000, 485, -700, -250, 300, 37, this, LEVEL1);
 	scene->Add(turret, STATIC);
+	
+	Laser* laser = new Laser(358, window->Height() - 17, UP, 1, 2, this, LEVEL1);
+	scene->Add(laser, STATIC);
+
 	PlaySound("Resources/theme.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 }
 

@@ -3,8 +3,7 @@
 #include "Level1.h"
 
 void StartScreen::Init() {
-	enter = new Sprite("Resources/enter.png");
-	background = new Sprite("Resources/backgroundLevel1.png");
+	background = new Sprite("Resources/startScreen.png");
 }
 
 void StartScreen::Finalize() {
@@ -34,6 +33,5 @@ void StartScreen::Update() {
 }
 
 void StartScreen::Draw() {
-	enter->Draw(150, float(window->CenterY()) + 80, Layer::FRONT);
 	background->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
 }
