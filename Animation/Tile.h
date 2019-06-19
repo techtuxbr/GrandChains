@@ -6,13 +6,10 @@
 #include "Animation.h"
 // -------------------
 
-enum types { FULL, HALF, JUST , WALL};
-
 // Objeto do personagem principal -------------------------------------------------------
 class Tile : public Object {
 private:
-	TileSet* tile;
-	Animation* tileAnim;
+	Sprite* tile;
 
 	int velX = NULL;		// Velocidade no eixo X
 	int velY = NULL;		// Velocidade no eixo Y
@@ -27,15 +24,11 @@ private:
 	bool moving;
 
 public:
-	Tile(int startX, int startY, uint platType);												// Construtor de plataforma estática
-	Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY, uint platType);	// Construtor de plataforma móvel
+	Tile(int startX, int startY, int velX, int velY, int rangeX, int rangeY, Sprite* sprite);	// Construtor de plataforma móvel
 	~Tile();																					// Destrutor
 
 	void Update();	// Atualiza lógica do jogo
 	void Draw();	// Desenha os quadros do jogo
-	void Define(uint platType);
-	float Width();
-	float Height();
 };
 // --------------------------------------------------------------------------------------
 

@@ -2,6 +2,8 @@
 #include "DetectArea.h"
 #include "Turret.h"
 #include "Laser.h"
+#include "Level1.h"
+#include "Level2.h"
 
 DetectArea::DetectArea(float startX, float startY, float bboX1, float bboxY1, float bboX2, float bboxY2, Game* actualLevel, uint level, Object* father, uint enemyType) {
 	bbox = new Rect(bboX1, bboxY1, bboX2, bboxY2);
@@ -57,11 +59,16 @@ void DetectArea::Delete(Object* obj) {
 			break;
 	}
 
+	Level1* l1 = (Level1*)actualLevel;
+	Level2* l2 = (Level2*)actualLevel;
+
 	switch (level) {
 		case LEVEL1:
-			Level1* l1 = (Level1*)actualLevel;
-
 			l1->scene->Delete(obj, type);
+			break;
+		
+		case LEVEL2:
+			l2->scene->Delete(obj, type);
 			break;
 	}
 }

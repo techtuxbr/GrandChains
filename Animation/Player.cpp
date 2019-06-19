@@ -2,6 +2,8 @@
 #include "GrandChains.h"
 #include "Tile.h"
 #include "Bullet.h"
+#include "Level2.h"
+#include "Level1.h"
 
 Player::Player(int startX, int startY, Game* actualLevel, uint level) {
 	// Define tamanho da Bounding Box do player ------
@@ -16,13 +18,19 @@ Player::Player(int startX, int startY, Game* actualLevel, uint level) {
 	lifeQnt = 3;
 	// --------------------------------------------------
 
+	Level1* l1 = (Level1*)actualLevel;
+	Level2* l2 = (Level2*)actualLevel;
 	switch (level) {
 		case LEVEL1:
-			Level1* l1 = (Level1*)actualLevel;
-
 			l1->scene->Add(life1, STATIC);
 			l1->scene->Add(life2, STATIC);
 			l1->scene->Add(life3, STATIC);
+			break;
+		
+		case LEVEL2:
+			l2->scene->Add(life1, STATIC);
+			l2->scene->Add(life2, STATIC);
+			l2->scene->Add(life3, STATIC);
 			break;
 	}
 
@@ -61,11 +69,15 @@ void Player::Update() {
 			bullet->Left();
 		}
 		
+		Level1* l1 = (Level1*)actualLevel;
+		Level2* l2 = (Level2*)actualLevel;
 		switch (level) {
 			case LEVEL1:
-				Level1* l1 = (Level1*)actualLevel;
-
 				l1->scene->Add(bullet, MOVING);
+				break;
+			
+			case LEVEL2:
+				l2->scene->Add(bullet, MOVING);
 				break;
 		}
 
@@ -75,13 +87,10 @@ void Player::Update() {
 	}
 	// ----------------------------------------------------------------------
 
-
-
 	// Movimento -------------------------------------------
 	x += velX * gameTime;	// Movimento em X
 	Jump();					// Movimento em Y		
 	// -----------------------------------------------------
-
 	// Analisa o estado atual baseado no movimento
 	StateMachine();
 	// -------------------------------------------
@@ -94,10 +103,10 @@ void Player::Update() {
 
 	// Executa o cáculo da gravidade
 	Gravity();				
-	// -----------------------------
+	// ----------------------------
 
 	// Atualiza a bounding box para a posição do player
-	bbox->MoveTo(x, y); 
+	bbox->MoveTo(x, y);
 	// ------------------------------------------------
 
 	// Reafirma os estados 
@@ -105,6 +114,19 @@ void Player::Update() {
 	lefted = false;
 	grounded = false; 
 	upped = false;
+	exit = false;
+
+	if (x - spriteSize / 2 < 0) {
+		lefted = true;
+	} else if (x + spriteSize / 2 > window->Width()) {
+		righted = true;
+	}
+
+	if (y - spriteSize / 2 < 0) {
+		upped = true;
+	} else if (y + spriteSize / 2 > window->Height()) {
+		dead = true;
+	}
 }
 
 void Player::Draw() {
@@ -279,7 +301,6 @@ void Player::OnCollision(Object* obj) {
 
 		int objectScaleX = object->Right() - object->Left();
 		int objectScaleY = object->Bottom() - object->Top();
-
 		
 		if (player->Right() > object->Left() + 6 && player->Left() < object->Right() - 6) {
 			if (y < tile->Y()) {
@@ -322,6 +343,8 @@ void Player::OnCollision(Object* obj) {
 				righted = true;
 			}
 		}*/
+	} else if (obj->Type() == EXIT){
+		exit = true;
 	}
 }
 
@@ -330,10 +353,10 @@ void Player::Damage() {
 	if (lifeQnt == 0) {
 		dead = true;
 	} else {
+		Level1* l1 = (Level1*)actualLevel;
+		Level2* l2 = (Level2*)actualLevel;
 		switch (level) {
 			case LEVEL1:
-				Level1* l1 = (Level1*)actualLevel;
-
 				switch (lifeQnt) {
 					case 1:
 						l1->scene->Delete(life2, STATIC);
@@ -343,16 +366,27 @@ void Player::Damage() {
 						break;
 
 				}
-
+				break;
+			
+			case LEVEL2:
+				switch (lifeQnt) {
+					case 1:
+						l2->scene->Delete(life2, STATIC);
+						break;
+					case 2:
+						l2->scene->Delete(life1, STATIC);
+						break;
+				}
 				break;
 		}
 	}
 }
 
-int Player::getLife() {
-	return lifeQnt;
-}
-
 bool Player::isDead() {
 	return dead;
 }
+
+bool Player::isExiting() {
+	return exit;
+}
+

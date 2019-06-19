@@ -1,18 +1,19 @@
-#ifndef _GRANDCHAINS_GROUND_H_
-#define _GRANDCHAINS_GROUND_H_
+#ifndef _GRANDCHAINS_EXIT_H_
+#define _GRANDCHAINS_EXIT_H_
 
 // Includes ----------
 #include "Object.h"
-#include "Animation.h"
+#include "Sprite.h"
 // -------------------
 
 // Objeto do personagem principal -------------------------------------------------------
-class Ground : public Object {
+class Exit : public Object {
 private:
-	
+	Sprite* exit = nullptr;
+
 public:
-	Ground(float startX, float startY, float width, float height);	// Construtor de plataforma estática
-	~Ground();														// Destrutor
+	Exit(int startX, int startY);			// Construtor de plataforma estática
+	~Exit();								// Destrutor
 
 	void Update();	// Atualiza lógica do jogo
 	void Draw();	// Desenha os quadros do jogo

@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "StartScreen.h"
 #include "Level1.h"
+#include "Level2.h"
 
 void StartScreen::Init() {
 	scene = new Scene();
@@ -28,7 +29,7 @@ void StartScreen::Update() {
 		ent = true;
 	}
 	if (ent && window->KeyDown(VK_RETURN)) {
-		Engine::Next<Level1>();
+		Engine::Next<Level2>();
 		ent = false;
 	} else {
 		scene->Update();

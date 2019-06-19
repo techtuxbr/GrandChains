@@ -7,7 +7,8 @@ enum ObjectsTypes {
 	TILE,
 	BULLET,
 	ENEMY,
-	AREA
+	AREA,
+	EXIT
 };
 
 enum ListOfLevels {

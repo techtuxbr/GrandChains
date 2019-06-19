@@ -4,7 +4,6 @@
 // Includes ----------
 #include "Object.h"
 #include "Animation.h"
-#include "TileSet.h"
 #include "Game.h"
 #include "Life.h"
 // -------------------
@@ -51,6 +50,7 @@ private:
 	bool righted	= false;	// Define se o jogador não pode andar pra direita
 	bool lefted		= false;	// Define se o jogador não pode andar pra esquerda
 	bool dead		= false;
+	bool exit		= false;
 
 	int lifeQnt;
 	Life* life1 = new Life(25, 20);
@@ -82,8 +82,8 @@ public:
 	void StateMachine();			// Interpretador de estados
 
 	void Damage();
-	int getLife();
 	bool isDead();
+	bool isExiting();
 };
 // ----------------------------------------------------------------------------------------------------------------------------------
 

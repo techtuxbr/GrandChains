@@ -4,11 +4,8 @@
 // Includes ----------
 #include "Object.h"
 #include "Animation.h"
-#include "TileSet.h"
 #include "Sprite.h"
-#include "GrandChains.h"
-#include "Level1.h"
-#include "Player.h"
+#include "Game.h"
 // -------------------
 
 // Objeto do personagem principal ---------------------------------------------------------------------------------------------------

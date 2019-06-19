@@ -3,8 +3,6 @@
 
 // Includes ----------
 #include "Object.h"
-#include "Sprite.h"
-#include "Animation.h"
 #include "Game.h"
 // -------------------
 

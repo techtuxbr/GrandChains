@@ -1,7 +1,7 @@
 #include "GrandChains.h"
 #include "Ground.h"
 
-Ground::Ground(int startX, int startY, int width, int height) {
+Ground::Ground(float startX, float startY, float width, float height) {
 	type = TILE;
 	MoveTo(startX, startY, Layer::FRONT);
 	bbox = new Rect(-width / 2, -height / 2, width / 2, height / 2);

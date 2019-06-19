@@ -1,6 +1,7 @@
 // Includes ------------
-#include "Level1.h"
 #include "Level2.h"
+#include "Exit.h"
+#include "Laser.h"
 #include "StartScreen.h"
 #include "GameOver.h"
 #include "Tile.h"
@@ -8,47 +9,51 @@
 #include "Turret.h"
 #include "Engine.h"
 #include "Ground.h"
-#include "Laser.h"
-#include "Exit.h"
 // ---------------------
 
-void Level1::Init() {
+void Level2::Init() {
 	scene = new Scene();
 
-	player = new Player(100, window->CenterY(), this, LEVEL1);
+	player = new Player(100, 100, this, LEVEL2);
 	scene->Add(player, MOVING);
 
-	Ground* ground = new Ground(0, window->Height(), 550, 200);
-	scene->Add(ground, STATIC);
+	Ground* topLeft = new Ground(192.5, 199, 388, 81);
+	scene->Add(topLeft, STATIC);
 
-	Ground* ground1 = new Ground(761, window->Height(), 630, 200);
-	scene->Add(ground1, STATIC);
-
-	Ground* ground2 = new Ground(365, 182, 275, 50);
-	scene->Add(ground2, STATIC);
-	
-	Ground* ground3 = new Ground(899, 182, 368, 50);
-	scene->Add(ground3, STATIC);
-
-	Ground* ground4 = new Ground(882, 580, 390, 125);
-	scene->Add(ground4, STATIC);
-
-	Tile* tile = new Tile(window->Width() - 64, 325, 0, 200, 0, 400, new Sprite("Resources/tile.png"));
-	scene->Add(tile, STATIC);
-
-	Turret* turret = new Turret(1000, 485, -700, -250, 300, 37, this, LEVEL1);
-	scene->Add(turret, STATIC);
-	
-	Laser* laser = new Laser(358, window->Height() - 17, UP, 1, 2, this, LEVEL1);
+	Laser* laser = new Laser(600, 150, LEFT, 1, 2.5, this, LEVEL2);
 	scene->Add(laser, STATIC);
 
-	Exit* exit = new Exit(365, 65);
+	Ground* bar = new Ground(640, 175, 73, 350);
+	scene->Add(bar, STATIC);
+
+	Ground* middle = new Ground(640, 335, 198, 31);
+	scene->Add(middle, STATIC);
+
+	Ground* bottomLeft = new Ground(169, 675, 338, 89);
+	scene->Add(bottomLeft, STATIC);
+
+	Tile* tileRight = new Tile(700, 675, 200, 0, 500, 0, new Sprite("Resources/tile2.png"));
+	scene->Add(tileRight, STATIC);
+
+	Tile* tileUp = new Tile(1150, 575, 0, 200, 0, 300, new Sprite("Resources/tile2.png"));
+	scene->Add(tileUp, STATIC);
+
+	Ground* blockBootom = new Ground(915, 254, 60, 29);
+	scene->Add(blockBootom, STATIC);
+
+	Ground* blockUp = new Ground(915, 462, 60, 29);
+	scene->Add(blockUp, STATIC);
+
+	Ground* topRight = new Ground(1160, 230, 240, 72);
+	scene->Add(topRight, STATIC);
+
+	Exit* exit = new Exit(1235, 100);
 	scene->Add(exit, STATIC);
 
 	PlaySound("Resources/theme.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 }
 
-void Level1::Update() {
+void Level2::Update() {
 	// Habilita visualização da bounding box
 	if (window->KeyUp('B')) {
 		ctrlKeyB = true;
@@ -65,7 +70,7 @@ void Level1::Update() {
 	} else if (player->isDead()) {
 		Engine::Next<GameOver>();
 	} else if (player->isExiting() && window->KeyDown(VK_UP)) {
-		Engine::Next<Level2>();
+		Engine::Next<StartScreen>();
 	} else {
 		scene->Update();
 		scene->CollisionDetection();
@@ -73,7 +78,7 @@ void Level1::Update() {
 	// -------------------------------------
 }
 
-void Level1::Draw() {
+void Level2::Draw() {
 	background->Draw(float(window->CenterX()), float(window->CenterY()), Layer::BACK);
 	scene->Draw();
 
@@ -95,7 +100,7 @@ void Level1::Draw() {
 	}
 }
 
-void Level1::Finalize() {
+void Level2::Finalize() {
 	delete background;
 	delete scene;
 	PlaySound(NULL, NULL, 0);

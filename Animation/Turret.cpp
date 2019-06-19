@@ -1,5 +1,6 @@
 #include "Turret.h"
 #include "Level1.h"
+#include "Level2.h"
 
 Turret::Turret(int startX, int startY, float bboX1, float bboxY1, float bboX2, float bboxY2, Game* actualLevel, uint level) {
 	bbox = new Rect(-60, -37, 60, 37);
@@ -9,11 +10,15 @@ Turret::Turret(int startX, int startY, float bboX1, float bboxY1, float bboX2, f
 	Turret::level = level;
 	Turret::actualLevel = actualLevel;
 
+	Level1* l1 = (Level1*)actualLevel;
+	Level2* l2 = (Level2*)actualLevel;
 	switch (level) {
 		case LEVEL1:
-			Level1* l1 = (Level1*)actualLevel;
-
 			l1->scene->Add(detectArea, STATIC);
+			break;
+
+		case LEVEL2:
+			l2->scene->Add(detectArea, STATIC);
 			break;
 	}
 
@@ -47,11 +52,15 @@ void Turret::Update() {
 			bullet->Left();
 		}
 
+		Level1* l1 = (Level1*)actualLevel;
+		Level2* l2 = (Level2*)actualLevel;
 		switch (level) {
 			case LEVEL1:
-				Level1* l1 = (Level1*)actualLevel;
-
 				l1->scene->Add(bullet, MOVING);
+				break;
+			
+			case LEVEL2:
+				l2->scene->Add(bullet, MOVING);
 				break;
 		}
 

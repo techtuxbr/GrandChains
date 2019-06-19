@@ -114,6 +114,12 @@
     <ClCompile Include="Laser.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Exit.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Level2.cpp">
+      <Filter>Game\Arquivos de Origem\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -199,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="Laser.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Exit.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Level2.h">
+      <Filter>Game\Arquivos de Cabeçalho\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
